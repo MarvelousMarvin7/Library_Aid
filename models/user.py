@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """ holds class User"""
 import bcrypt
-import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import BOOLEAN, Column, String
 from sqlalchemy.orm import relationship
@@ -11,13 +10,13 @@ class User(BaseModel, Base):
     """Representation of a user """
     __tablename__ = 'users'
     email = Column(String(128), nullable=False)
-    password = Column(String(20), nullable=False)
+    password = Column(String(60), nullable=False)
     user_name = Column(String(128), nullable=False)
     image_url = Column(String(128), nullable=True)
     is_institution_user = Column(BOOLEAN, nullable=True, default=False)
     documents = relationship("Document", backref="user")
     research_sessions = relationship("ResearchSession", backref="user")
-    query = relationship("Query", backref="user")
+    queries = relationship("Query", backref="user")
     notifications = relationship("Review", backref="user")
 
     def __init__(self, *args, **kwargs):
