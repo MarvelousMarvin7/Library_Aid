@@ -11,7 +11,7 @@ class Document(BaseModel, Base):
     user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
     title = Column(String(128), nullable=False)
-    description = Column(String(1024), nullable=False)
+    description = Column(String(1024), nullable=True)
     file_path = Column(String(128), nullable=False)
     file_type = Column(String(128), nullable=False)
     image_url = Column(String(128), nullable=True)
