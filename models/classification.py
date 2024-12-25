@@ -2,7 +2,7 @@
 """ holds class for document classification"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, ForeignKey, String
-from sqlaclhemy.orm import relationship
+from sqlalchemy.orm import relationship
 
 
 class Classification(BaseModel, Base):
