@@ -17,7 +17,7 @@ class User(BaseModel, Base):
     documents = relationship("Document", backref="user")
     research_sessions = relationship("ResearchSession", backref="user")
     queries = relationship("Query", backref="user")
-    notifications = relationship("Review", backref="user")
+    notifications = relationship("Notification", backref="user")
 
     def __init__(self, *args, **kwargs):
         """initializes user"""

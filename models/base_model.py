@@ -12,7 +12,7 @@ time = "%Y-%m-%dT%H:%M:%S.%f"
 Base = declarative_base()
 
 
-class BaseModel(Base):
+class BaseModel:
     """
     Base model class which contains the datetime
     and id generated with uuid4 which other entities

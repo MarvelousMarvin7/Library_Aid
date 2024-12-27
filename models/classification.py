@@ -14,7 +14,7 @@ class Classification(BaseModel, Base):
     category_code = Column(String(60), nullable=False)
     description = Column(String(60), nullable=False)
     parent_id = Column(String(60), ForeignKey('classifications.id', ondelete='SET NULL'), nullable=True)
-    parent = relationship("Classification", remote_side=[id], backref="children")
+    parent = relationship("Classification", remote_side="Classification.id", backref="children")
 
 
     def __init__(self, *args, **kwargs):
