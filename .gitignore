@@ -1,5 +1,5 @@
 *.pyc
 *~
 mysqlsetup.sql
-main_document.py
 *__pycache__/
+.venv

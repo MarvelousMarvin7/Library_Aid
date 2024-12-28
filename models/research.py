@@ -3,15 +3,29 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, ForeignKey, String, Table, DateTime
 from sqlalchemy.orm import relationship
+import uuid
 
 
-class SessionDocuments(BaseModel, Base):
+class SessionDocuments(Base):
     """Establishes the many-to-many relatioinship
     between document and research session
     """
     __tablename__ = 'session_documents'
-    research_session_id = Column('research_session_id', String(60), ForeignKey('research_sessions.id'))
-    document_id = Column('document_id', String(60), ForeignKey('documents.id'))
+    id = Column(String(60), primary_key=True, default=lambda: str(uuid.uuid4()))
+    research_session_id = Column('research_session_id',
+                                    String(60),
+                                    ForeignKey('research_sessions.id',
+                                                ondelete='CASCADE',
+                                                onupdate='CASCADE'
+                                                )
+                                )
+    document_id = Column('document_id',
+                          String(60),
+                            ForeignKey('documents.id',
+                                        ondelete='CASCADE',
+                                        onupdate='CASCADE'
+                                        )
+                        )
 
 
 class ResearchSession(BaseModel, Base):
@@ -21,9 +35,12 @@ class ResearchSession(BaseModel, Base):
                         nullable=False)
     session_start = Column(DateTime, nullable=False)
     session_end = Column(DateTime, nullable=False)
-    documents_accessed = relationship('Document', secondary='session_documents', back_populates='research_sessions')
+    documents_accessed = relationship('Document',
+                                        secondary='session_documents',
+                                        back_populates='research_sessions'
+                                    )
 
-    
+
     def __init__(self, *args, **kwargs):
         """initializes Research Session"""
         super().__init__(*args, **kwargs)

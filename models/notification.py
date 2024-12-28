@@ -2,7 +2,6 @@
 """ holds class Notification"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Boolean, Column, ForeignKey, String
-from sqlalchemy.orm import relationship
 
 
 class Notification(BaseModel, Base):

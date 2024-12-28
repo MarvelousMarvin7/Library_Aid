@@ -18,17 +18,17 @@ class Document(BaseModel, Base):
     file_type = Column(Enum('PDF', 'TXT', 'JPEG', 'DOCX', 'PNG',
                              name='file_types'), nullable=False)
     image_url = Column(String(128), nullable=True)
-    classification_code = Column(String(128), nullable=False)
+    classification_code = Column(String(128), nullable=True)
     tag = Column(String(128), nullable=False)
     abstract = Column(Text, nullable=True)
     abstracts = relationship("Abstract", backref="document", cascade="all, delete")
-    tags = relationship("Tag", backref="document", cascade="all, delete")
     classifications = relationship("Classification", backref="document",
                                     cascade="all, delete")
     research_sessions = relationship('ResearchSession',
-                                      secondary='session_documents',
+                                        secondary='session_documents',
                                         back_populates='documents_accessed'
                                     )
+    tags = relationship('Tag', secondary='document_tags', back_populates='documents')
     
 
     def __init__(self, *args, **kwargs):
