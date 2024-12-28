@@ -1,0 +1,23 @@
+{
+  "name": "library_aid",
+  "version": "1.0.0",
+  "description": "Library Aid application is a smart, scalable, and  user-friendly personal library management  system that combines traditional library  principles with AI technology. It aims to  empower users to efficiently organize, explore,  and interact with their personal libraries,  ultimately fostering a more productive and  insightful research experience.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i app/static/src/input.css -o app/static/css/style.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarvelousMarvin7/Library_Aid.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarvelousMarvin7/Library_Aid/issues"
+  },
+  "homepage": "https://github.com/MarvelousMarvin7/Library_Aid#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

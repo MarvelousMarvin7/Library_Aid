@@ -3,3 +3,5 @@
 mysqlsetup.sql
 *__pycache__/
 .venv
+main_ai.py
+node_modules
