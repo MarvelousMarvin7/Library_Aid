@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <title>Home Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white overscroll-y-none">
+    <!-- Main Container -->
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <nav class="bg-blue-900 text-white lg:w-64 w-80 fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 lg:translate-x-0 z-50">
+            <ul class="space-y-4 px-6 bottom-1/2 absolute w-full">
+                <li><a href="#" class="block py-2 hover:text-gray-300">Dashboard</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">My Documents</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">Recommended Books</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">Settings</a></li>
+            </ul>
+            <select class="md:hidden border rounded px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+            <div class=" flex justify-center py-6 bottom-0 absolute w-full">
+                <img src="../static/images/homepage/LIAID-logo.png" alt="Library Aid Logo" class="h-8">
+            </div>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="flex-1 lg:ml-64">
+            <!-- Header -->
+            <header class="flex items-center justify-between px-3 py-4 md:px-6 md:py-4 bg-gray-100 border-b">
+                <!-- Large Screen: Logo and Language Dropdown -->
+                <div class="hidden md:flex md:items-center md:space-x-4">
+                    <img src="../static/images/introduction/LIAID logo-01.png" alt="Library Aid Logo" class="h-8">
+                    <select class="border rounded px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                    </select>
+                </div>
+            
+                <!-- Large Screen: Search Bar and Profile -->
+                <div class="hidden md:flex md:items-center md:space-x-6">
+                    <input type="text" placeholder="Search..." class="px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full border">
+                </div>
+            
+                <!-- Mobile View: Search Bar, Logo and notification -->
+                <div class="flex items-center justify-center space-x-20 md:hidden">
+                    <img src="../static/images/homepage/logo2.png" alt="Library Aid Logo" class="h-11">
+                    <input type="text" placeholder="Search..." class="px-3 py-3 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button class="text-blue-900" onclick="toggleSidebar()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            
+
+            <!-- Main Content -->
+            <main class="px-6 py-4 space-y-8 overscroll-none">
+                <!-- User Profile -->
+                <div class="flex space-x-6 items-center">
+                    <img src="https://via.placeholder.com/100" alt="User" class="w-24 h-24 rounded-full border">
+                    <div>
+                        <h2 class="text-2xl font-semibold">User Name</h2>
+                        <p class="text-gray-600">user@example.com</p>
+                    </div>
+                </div>
+
+                <!-- Uploaded Documents -->
+                <section>
+                    <h3 class="text-xl font-bold mb-4">Uploaded Documents</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div class="bg-gray-100 border rounded-lg p-4">
+                            <img src="https://via.placeholder.com/100" alt="Document Thumbnail" class="w-full h-32 object-cover mb-2">
+                            <p class="text-gray-600 truncate">Document Name.pdf</p>
+                        </div>
+                        <!-- Additional document cards can be added here -->
+                    </div>
+                </section>
+
+                <!-- Recommended Books -->
+                <section>
+                    <h3 class="text-xl font-bold mb-4">Recommended Books</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div class="bg-gray-100 border rounded-lg p-4">
+                            <img src="https://via.placeholder.com/100" alt="Book Thumbnail" class="w-full h-32 object-cover mb-2">
+                            <p class="text-gray-600 truncate">Book Title</p>
+                        </div>
+                        <!-- Additional book cards can be added here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <footer class="bg-gray-100 py-5 lg:hidden bottom-0 fixed w-full">
+        <div class="container mx-auto flex justify-center items-center">
+            <h1 class="text-blue-900 font-bold">Page Logo</h1>
+        </div>
+    </footer>
+    <!-- JavaScript -->
+    <script>
+        const sidebar = document.querySelector('nav');
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+        }
+    </script>
+</body>
+</html>

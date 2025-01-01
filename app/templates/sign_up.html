@@ -2,33 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
     <title>Sign Up</title>
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
-<body class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center h-screen">
-    <div class="bg-white bg-opacity-50 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Sign Up</h2>
+<body class="backdrop-blur-sm bg-gradient-to-bl from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center h-screen">
+    <div class="bg-black bg-opacity-65 overscroll-none p-5 rounded-lg shadow-lg w-full mx-2 md:w-full max-w-md">
+        <h2 class="text-2xl text-center font-bold mb-6 text-orange-500">Sign Up</h2>
         <form action="#" method="POST">
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700">Name</label>
-                <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <div class="mb-4 bg-transparent">
+                <label for="name" class="block text-white pt-3">Name :</label>
+                <input type="text" id="name" name="name" class="w-full px-1 py-2 md:py-1 border-b bg-transparent text-white focus:outline-none" required>
             </div>
-            <div class="mb-4">
-                <label for="email" class="block text-gray-700">Email</label>
-                <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <div class="mb-4 bg-transparent">
+                <label for="email" class="block text-white">Email :</label>
+                <input type="email" id="email" name="email" class="w-full px-1 py-2 md:py-1 border-b bg-transparent text-white focus:outline-none" required>
             </div>
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700">Password</label>
-                <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <div class="mb-4 bg-transparent">
+                <label for="password" class="block text-white">Password :</label>
+                <input type="password" id="password" name="password" class="w-full px-1 py-1 border-b text-white bg-transparent focus:outline-none" required>
             </div>
-            <div class="mb-4">
-                <label for="confirm_password" class="block text-gray-700">Confirm Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            <div class="mb-4 bg-transparent">
+                <label for="confirm_password" class="block text-white">Confirm Password :</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="w-full px-1 py-2 md:py-1 border-b text-white bg-transparent focus:outline-none" required>
             </div>
-            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Sign Up</button>
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-800 via-blue-700 to-blue-400 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Sign Up</button>
+            <button class="bg-opacity-50 hover:bg-opacity-50 flex items-center justify-center ml-16 md:ml-24 mt-3 border px-4 py-2 rounded-full shadow-sm text-gray-100 bg-black hover:text-gray-700 hover:bg-gray-100 hover:duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
+                <img src="https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000" alt="Google Logo" class="w-10 h-8 px-1">
+                <span class="font-medium">Sign up with Google</span>
+            </button>
         </form>
-        <p class="mt-4 text-gray-600 text-center">Already have an account? <a href="#" class="text-blue-500 hover:underline">Log in</a></p>
+        <p class="mt-4 text-white text-center">Already have an account? <a href="#" class="text-blue-500 hover:underline">Log in</a></p>
     </div>
 </body>
 </html>
