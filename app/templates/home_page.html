@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
     <title>Home Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
-<body class="bg-white overscroll-y-none">
-    <!-- Main Container -->
-    <div class="flex h-screen">
+<body class="bg-white">
         <!-- Sidebar Navigation -->
         <nav class="bg-blue-900 text-white lg:w-64 w-80 fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 lg:translate-x-0 z-50">
             <ul class="space-y-4 px-6 bottom-1/2 absolute w-full">
@@ -34,7 +32,7 @@
                 <!-- Large Screen: Logo and Language Dropdown -->
                 <div class="hidden md:flex md:items-center md:space-x-4">
                     <img src="../static/images/introduction/LIAID logo-01.png" alt="Library Aid Logo" class="h-8">
-                    <select class="border rounded px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select class="border border-blue-800 rounded px-3 py-1 text-blue-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
                         <option value="fr">French</option>
@@ -43,16 +41,20 @@
             
                 <!-- Large Screen: Search Bar and Profile -->
                 <div class="hidden md:flex md:items-center md:space-x-6">
-                    <input type="text" placeholder="Search..." class="px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full border">
+                    <input type="text" placeholder="Search..." class="px-4 py-2 border border-blue-800 placeholder-blue-400 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <img src="../static/images/introduction/icons8-profile-48.png" alt="Profile" class="w-10 h-10 rounded-full border">
                 </div>
             
                 <!-- Mobile View: Search Bar, Logo and notification -->
-                <div class="flex items-center justify-center space-x-20 md:hidden">
-                    <img src="../static/images/homepage/logo2.png" alt="Library Aid Logo" class="h-11">
-                    <input type="text" placeholder="Search..." class="px-3 py-3 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <div class="md:hidden">
+                    <img src="../static/images/homepage/logo2.png" alt="Library Aid Logo" class="h-11 md:hidden">
+                </div>
+                <div class="md:hidden">
+                    <input type="text" placeholder="Search..." class="md:hidden placeholder-blue-400 border-blue-800 px-3 py-3 text-sm border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="md:hidden">
                     <button class="text-blue-900" onclick="toggleSidebar()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="md:hidden h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                         </svg>
                     </button>
@@ -61,47 +63,67 @@
             
 
             <!-- Main Content -->
-            <main class="px-6 py-4 space-y-8 overscroll-none">
+            <main class="px-6 py-4 space-y-8 bg-green-50">
                 <!-- User Profile -->
-                <div class="flex space-x-6 items-center">
-                    <img src="https://via.placeholder.com/100" alt="User" class="w-24 h-24 rounded-full border">
-                    <div>
-                        <h2 class="text-2xl font-semibold">User Name</h2>
-                        <p class="text-gray-600">user@example.com</p>
-                    </div>
-                </div>
-
-                <!-- Uploaded Documents -->
-                <section>
-                    <h3 class="text-xl font-bold mb-4">Uploaded Documents</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <div class="bg-gray-100 border rounded-lg p-4">
-                            <img src="https://via.placeholder.com/100" alt="Document Thumbnail" class="w-full h-32 object-cover mb-2">
-                            <p class="text-gray-600 truncate">Document Name.pdf</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="flex space-x-6 p-10 md:px-10 border bg-gradient-to-bl from-blue-100 to-blue-300  rounded-lg">
+                        <img src="https://via.placeholder.com/100" alt="User" class="md:w-24 md:h-24 w-10 h-10 rounded-full border">
+                        <div>
+                            <h2 class="md:text-2xl text-lg font-semibold">User Name</h2>
+                            <p class="text-gray-600">user@example.com</p>
                         </div>
-                        <!-- Additional document cards can be added here -->
+                    </div>
+                     <!-- Recommended Books -->
+                    <section class="border rounded-lg p-6 bg-white">
+                        <div class="border-b-blue-800 border mb-2 border-x-0 border-t-0">
+                            <h3 class="text-xl font-bold mb-4">Recommended Books</h3>
+                        </div>
+                        <div class="flex space-x-4 overflow-x-scroll no-scrollbar">
+                            <div class="p-4">
+                                <img src="https://via.placeholder.com/100" alt="Book Thumbnail" class="md:w-32 md:h-36 h-32 w-32 mb-2">
+                                <p class="text-gray-600 truncate">Book Title</p>
+                                <p class="text-gray-600 truncate">Author: bdsvb</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Large screen -->
+                <section class="hidden md:block border rounded-none p-6 bg-white">
+                    <div class="border-b-blue-800 border mb-2 border-x-0 border-t-0">
+                        <h3 class="text-xl font-bold mb-4">Uploaded Documents</h3>
+                    </div>
+                    <div class="no-scrollbar md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-4">
+                        <div class="flex-none p-4 min-w-[150px]">
+                            <img src="../static/images/homepage/book.png" alt="Document Thumbnail" class="w-36 h-32 object-cover -mr-2 mb-2">
+                            <p class="text-gray-600 truncate">Document Name.pdf</p>
+                            <p class="text-gray-600 text-sm truncate">Description: hjbkahjbdhjbdhjbkjdbdhjbdhjb,ksNB,dzbnbd,mbd,NB,mbzbn</p>
+                            <p class="text-gray-600 text-sm truncate">Classification code :qvbsz</p>
+                        </div>
                     </div>
                 </section>
 
-                <!-- Recommended Books -->
-                <section>
-                    <h3 class="text-xl font-bold mb-4">Recommended Books</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <div class="bg-gray-100 border rounded-lg p-4">
-                            <img src="https://via.placeholder.com/100" alt="Book Thumbnail" class="w-full h-32 object-cover mb-2">
-                            <p class="text-gray-600 truncate">Book Title</p>
+                <!-- Mobile screen -->
+                <section class="md:hidden border rounded-lg p-6 bg-white">
+                    <div class="border-b-blue-800 border mb-2 border-x-0 border-t-0">
+                        <h3 class="text-xl font-bold mb-4">Uploaded Documents</h3>
+                    </div>
+                    <div class="flex space-x-4 overflow-x-scroll no-scrollbar">
+                        <div class="flex-none p-4 min-w-[150px]">
+                            <img src="../static/images/homepage/book.png" alt="Document Thumbnail" class="w-36 h-40 object-cover mb-1">
+                            <p class="text-gray-600 truncate">Document Name.pdf</p>
+                            <p class="text-gray-600 text-sm truncate">Description: hjbkahjbdhjbdhjbkjdbdhjbdhjb,ksNB,dzbnbd,mbd,NB,mbzbn</p>
+                            <p class="text-gray-600 text-sm truncate">Classification code : Qd71</p>
                         </div>
-                        <!-- Additional book cards can be added here -->
+                        <!-- Additional document cards go here -->
                     </div>
                 </section>
             </main>
         </div>
-    </div>
-    <footer class="bg-gray-100 py-5 lg:hidden bottom-0 fixed w-full">
-        <div class="container mx-auto flex justify-center items-center">
-            <h1 class="text-blue-900 font-bold">Page Logo</h1>
-        </div>
-    </footer>
+        <footer class="bg-gray-100 py-5 lg:hidden bottom-0 w-full">
+            <div class="container mx-auto flex justify-center items-center">
+                <h1 class="text-blue-900 font-bold">Page Logo</h1>
+            </div>
+        </footer>
     <!-- JavaScript -->
     <script>
         const sidebar = document.querySelector('nav');
