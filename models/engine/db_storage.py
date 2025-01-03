@@ -66,6 +66,17 @@ class DB_storage():
         if obj is not None:
             self.__session.delete(obj)
 
+    def close(self):
+        """close the current database session"""
+        self.__session.remove()
+
+    def get(self, cls, id):
+        """get an object based on the class and its ID"""
+        if cls is None or id is None:
+            return None
+        obj = self.__session.query(cls).filter_by(id=id).first()
+        return obj
+
     def reload(self):
         """reloads data from the database"""
         Base.metadata.create_all(self.__engine)
