@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Session Page</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <style>
+        .bg-cover {
+            background-image: url('../static/images/introduction/20241214_165909.jpg');
+        }
+    </style>
+</head>
+<body class="bg-cover h-screen text-white">
+    <div class="flex">
+        <!-- Navigation Pane -->
+        <nav id="navPane" class="lg:w-64 w-80 bg-blue-800 h-screen fixed p-4 inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 lg:translate-x-0 z-50">
+            <button id="closeNav" class="md:hidden absolute top-4 right-4 text-white bg-red-600 px-3 py-1 rounded">
+                Close
+            </button>
+            <ul class="space-y-4 px-6 mt-8">
+                <li><a href="#" class="block py-2 hover:text-gray-300">Abstract Document</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">Research Session</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">Classify Document</a></li>
+            </ul>
+            <div class="flex justify-center py-6 bottom-0 absolute w-full">
+                <img src="../static/images/homepage/LIAID-logo.png" alt="Library Aid Logo" class="h-8">
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64 ml-0 px-6">
+            <header class="md:hidden lg:hidden -mx-6 flex items-center justify-between bg-white px-3 py-4 md:px-6 md:py-4 border-b">
+                <!-- Mobile View: Logo and notification -->
+                <div class="md:hidden">
+                    <img src="../static/images/homepage/logo2.png" alt="Library Aid Logo" class="h-11 md:hidden">
+                </div>
+                <div class="md:hidden">
+                    <button id="openNav" class="lg:hidden bg-blue-600 text-white px-4 py-2 rounded z-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="md:hidden h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            <h1 class="text-3xl mb-4 mt-6">Research Session</h1>
+
+            <!-- Research Session Form -->
+            <form id="sessionForm" class="bg-black bg-opacity-80 p-6 rounded-lg">
+                <div class="mb-4">
+                    <label for="sessionStart" class="block text-sm font-medium">Session Start</label>
+                    <input type="datetime-local" id="sessionStart" name="session_start" class="mt-1 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none">
+                </div>
+                <div class="mb-4">
+                    <label for="sessionEnd" class="block text-sm font-medium">Session End</label>
+                    <input type="datetime-local" id="sessionEnd" name="session_end" class="mt-1 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium">Documents Used</label>
+                    <div id="documentsList" class="space-y-2">
+                        <!-- Dynamically added document inputs -->
+                    </div>
+                    <button type="button" id="addDocument" class="mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Add Document
+                    </button>
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+            </form>
+
+            <!-- Query and AI Response Section -->
+            <div class="mt-8 bg-blue-700 bg-opacity-80 p-6 rounded-lg">
+                <h2 class="text-2xl mb-4">Ask AI a Question</h2>
+                <form id="aiQueryForm" class="space-y-4">
+                    <div>
+                        <label for="selectedDocument" class="block text-sm font-medium">Select Document</label>
+                        <select id="selectedDocument" name="selected_document" class="mt-1 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300">
+                            <option value="">-- Select a Document --</option>
+                            <!-- Dynamically populate with document names -->
+                        </select>
+                    </div>
+                    <div>
+                        <label for="queryText" class="block text-sm font-medium">Your Question</label>
+                        <textarea id="queryText" name="query_text" rows="4" class="mt-1 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"></textarea>
+                    </div>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Submit Query</button>
+                </form>
+                <div id="aiResponse" class="mt-6 hidden">
+                    <h3 class="text-xl font-semibold">AI Response</h3>
+                    <p id="responseContent" class="mt-2 text-lg"></p>
+                </div>
+            </div>
+
+            <!-- AI-Generated Session Response -->
+            <div id="sessionResponse" class="mt-8 hidden bg-blue-600 p-4 rounded-lg">
+                <h2 class="text-2xl mb-4">AI-Generated Session Summary</h2>
+                <div id="responseText" class="text-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation toggle functionality
+        const navPane = document.getElementById('navPane');
+        const openNav = document.getElementById('openNav');
+        const closeNav = document.getElementById('closeNav');
+
+        openNav.addEventListener('click', () => {
+            navPane.classList.remove('-translate-x-full');
+        });
+
+        closeNav.addEventListener('click', () => {
+            navPane.classList.add('-translate-x-full');
+        });
+
+        // Document list functionality
+        const documentsList = document.getElementById('documentsList');
+        const addDocumentButton = document.getElementById('addDocument');
+
+        addDocumentButton.addEventListener('click', () => {
+            const documentDiv = document.createElement('div');
+            documentDiv.className = 'flex items-center space-x-4';
+
+            documentDiv.innerHTML = `
+                <input type="text" name="documents[]" placeholder="Document Name" class="mt-1 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none">
+                <button type="button" class="remove-document bg-red-500 text-white px-3 py-1 rounded">Remove</button>
+            `;
+
+            documentsList.appendChild(documentDiv);
+
+            // Attach remove functionality
+            documentDiv.querySelector('.remove-document').addEventListener('click', () => {
+                documentDiv.remove();
+            });
+        });
+
+        // Simulated AI response generation
+        const sessionForm = document.getElementById('sessionForm');
+        const sessionResponse = document.getElementById('sessionResponse');
+        const responseText = document.getElementById('responseText');
+
+        sessionForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent form submission
+
+            // Simulated AI response
+            const startDate = document.getElementById('sessionStart').value;
+            const endDate = document.getElementById('sessionEnd').value;
+            const documents = Array.from(documentsList.querySelectorAll('input')).map(input => input.value).filter(doc => doc);
+
+            const simulatedResponse = `
+                Session started on ${new Date(startDate).toLocaleString()} and ended on ${new Date(endDate).toLocaleString()}.
+                Documents used: ${documents.length > 0 ? documents.join(', ') : 'No documents added.'}
+            `;
+
+            responseText.textContent = simulatedResponse;
+            sessionResponse.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

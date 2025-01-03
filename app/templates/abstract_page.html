@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abstract Creation Page</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body class="h-screen bg-gradient-to-tr from-blue-800 to-blue-400 text-white">
+    <div class="flex">
+        <!-- Navigation Pane -->
+        <nav id="navPane" class="lg:w-64 w-80 bg-blue-900 h-screen fixed p-4 inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 lg:translate-x-0 z-50">
+            <button id="closeNav" class="md:hidden absolute top-4 right-4 text-white bg-red-600 px-3 py-1 rounded">
+                Close
+            </button>
+            <ul class="space-y-4 px-6 mt-8">
+                <li><a href="home_page.html" class="block py-2 hover:text-gray-300">Home</a></li>
+                <li><a href="research_session.html" class="block py-2 hover:text-gray-300">Research Session</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">Classify Document</a></li>
+                <li><a href="#" class="block py-2 hover:text-gray-300">Settings</a></li>
+            </ul>
+            <select class="md:hidden border rounded px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+            <div class="flex justify-center py-6 bottom-0 absolute w-full">
+                <img src="../static/images/homepage/LIAID-logo.png" alt="Library Aid Logo" class="h-8">
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-64 px-6">
+            <header class="md:hidden lg:hidden -mx-6 flex items-center justify-between bg-white px-3 py-4 md:px-6 md:py-4 border-b">
+                <!-- Mobile View: Logo and notification -->
+                <div class="md:hidden">
+                    <img src="../static/images/homepage/logo2.png" alt="Library Aid Logo" class="h-11 md:hidden">
+                </div>
+                <div class="md:hidden">
+                    <button id="openNav" class="lg:hidden bg-blue-600 text-white px-4 py-2 rounded z-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="md:hidden h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            <h1 class="text-3xl mb-4 mt-6">Abstract Creation</h1>
+            <form action="/submit_abstract" method="POST" enctype="multipart/form-data" class="bg-blue-700 p-6 rounded-lg">
+                <div class="mb-4">
+                    <label for="pdfFile" class="block text-sm font-medium">Upload PDF File</label>
+                    <input type="file" id="pdfFile" name="pdfFile" class="mt-1 block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none">
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Submit</button>
+            </form>
+
+            <div class="mt-8">
+                <h2 class="text-2xl mb-4">Abstracted Texts</h2>
+                <div id="abstractedTexts" class="space-y-4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation toggle functionality
+        const navPane = document.getElementById('navPane');
+        const openNav = document.getElementById('openNav');
+        const closeNav = document.getElementById('closeNav');
+
+        openNav.addEventListener('click', () => {
+            navPane.classList.remove('-translate-x-full');
+        });
+
+        closeNav.addEventListener('click', () => {
+            navPane.classList.add('-translate-x-full');
+        });
+
+        // Example JavaScript to dynamically add abstracts
+        const abstractedTexts = document.getElementById('abstractedTexts');
+
+        function addAbstract(text) {
+            const abstractDiv = document.createElement('div');
+            abstractDiv.className = 'bg-blue-600 p-4 rounded-lg flex justify-between items-center';
+            abstractDiv.innerHTML = `
+                <span>${text}</span>
+                <button class="delete-btn bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+            `;
+            abstractedTexts.appendChild(abstractDiv);
+
+            // Attach delete functionality
+            abstractDiv.querySelector('.delete-btn').addEventListener('click', () => {
+                abstractDiv.remove();
+            });
+        }
+
+        // Simulate adding multiple abstracts
+        addAbstract('Abstract 1: AI-generated summary of the document.');
+        addAbstract('Abstract 2: Detailed AI-generated overview.');
+        addAbstract('Abstract 2: Detailed AI-generated overview.');
+        addAbstract('Abstract 2: Detailed AI-generated overview.');
+    </script>
+</body>
+</html>
