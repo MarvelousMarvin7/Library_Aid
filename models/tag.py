@@ -2,7 +2,7 @@
 """ holds class for document tag"""
 import uuid
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, String, Enum
 from sqlalchemy.orm import relationship
 
 
@@ -23,10 +23,13 @@ class DocumentTags(BaseModel, Base):
 class Tag(BaseModel, Base):
     """Representation of Tag entity"""
     __tablename__ = 'tags'
-    tag = Column(String(128), nullable=False)
+    tag = Column(Enum('AI', 'Important', 'Art',
+                       'Science', 'Mathematics', 'My Document',
+                         'History', 'Archaeology', 'Physics', 'Economics',
+                           'Chemistry', 'Research',
+                            'Technology'), nullable=True, index=True)
     documents = relationship('Document', secondary='document_tags',
                                 back_populates='tags')
-
 
     def __init__(self, *args, **kwargs):
         """initializes tags"""

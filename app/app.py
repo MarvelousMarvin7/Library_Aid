@@ -2,6 +2,7 @@
 """Main file for implementing api"""
 
 from flask import Flask, make_response
+from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from app.api.routes import api
 from models import storage
@@ -40,4 +41,4 @@ if __name__ == "__main__":
     """run flask server"""
     host = getenv("LIAID_API_HOST", "0.0.0.0")
     port = int(getenv("LIAID_API_PORT", 5000))
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=host, port=port, debug=True)

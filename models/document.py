@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ holds class Document"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Enum, ForeignKey, String, Text
+from sqlalchemy import Column, Enum, ForeignKey, String, Text, Index
 from sqlalchemy.orm import relationship
 import models
 
@@ -19,7 +19,6 @@ class Document(BaseModel, Base):
                              name='file_types'), nullable=False)
     image_url = Column(String(128), nullable=True)
     classification_code = Column(String(128), nullable=True)
-    tag = Column(String(128), nullable=False)
     abstract = Column(Text, nullable=True)
     abstracts = relationship("Abstract", backref="document", cascade="all, delete")
     classifications = relationship("Classification", backref="document",
@@ -30,6 +29,8 @@ class Document(BaseModel, Base):
                                     )
     tags = relationship('Tag', secondary='document_tags', back_populates='documents')
     
+    __table_args__ = (Index('my_index', "title", "classification_code"),)
+
 
     def __init__(self, *args, **kwargs):
         """initializes Document"""

@@ -20,21 +20,14 @@ user.save()
 
 # Creation of a document
 document_1 = Document(user_id=user.id, title="Infs 311 past questions", file_type="PDF", file_path="/static/documents/infs 421.pdf",
-                    image_url="/static/images/doc/test.jpeg", classification_code="QD78", tag="Past questions",
-                    abstract="This document contains past questions for Infs 421")
+                    image_url="/static/images/doc/test.jpeg", classification_code="QD78",
+                      abstract="This document contains past questions for Infs 421")
 document_1.save()
 
 document_2 = Document(user_id=user.id, title="Infs 429 past questions", file_type="PDF", file_path="/static/documents/infs 429.pdf",
-                    image_url="/static/images/doc/test.jpeg", classification_code="TD7", tag="Past questions",
-                    abstract="This document contains past questions for Infs 429")
-document_2.save()
-
-# Creation of a querry
-query = Query(user_id=user.id, 
-              document_id=document_1.id, 
-              query_text="What is Information systems?", 
-              response_text="Information systems blabla bla test me.")
-query.save()
+                    image_url="/static/images/doc/test.jpeg", classification_code="TD7",
+                     abstract="This document contains past questions for Infs 429")
+document_2.save() 
 
 # Creation of research session
 start_time = datetime.utcnow()
@@ -44,6 +37,15 @@ research_session.save()
 
 research_session.documents_accessed.append(document_1)
 research_session.documents_accessed.append(document_2)
+
+# Creation of a querry
+query = Query(user_id=user.id, 
+              document_id=document_1.id,
+              research_session_id=research_session.id, 
+              query_text="What is Information systems?", 
+              response_text="Information systems blabla bla test me.")
+query.save()
+
 
 # Creation of notification
 notification = Notification(user_id=user.id, message="You have a new notification", is_read=False)

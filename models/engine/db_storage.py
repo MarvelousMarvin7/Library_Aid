@@ -5,6 +5,7 @@ from os import getenv
 from typing import Dict
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
+from typing import List, Any
 from models.base_model import Base, BaseModel
 from models.user import User
 from models.document import Document
@@ -52,6 +53,18 @@ class DB_storage():
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
         return (new_dict)
+
+    def search_by_title(self, cls, title: str) -> List[Any]:
+        """Search for objects of a specific class by title."""
+        if cls not in classes.values():
+            raise ValueError("Invalid class provided for search.")
+        return self.__session.query(cls).filter(cls.title.ilike(f"%{title}%"))
+    
+    def search_by_classification_code(self, cls, code: str) -> List[Any]:
+        """Search for objects of a specific class by classification code."""
+        if cls not in classes.values():
+            raise ValueError("Invalid class provided for search.")
+        return self.__session.query(cls).filter(cls.classification_code == code)
 
     def new(self, obj):
         """add the object to the current database session"""
