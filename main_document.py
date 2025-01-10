@@ -15,16 +15,19 @@ from models.user import User
 
 # Creation of a User
 user = User(email="test1@gmail.com", user_name="Test Me",
-             password="testpwd", image_url="/static/images/users/test_pic.jpeg", is_institution_user=True)
+             password="testpwd", image_url="/static/images/users/test_pic.jpeg",
+               is_institution_user=True, is_admin=False)
 user.save()
 
 # Creation of a document
-document_1 = Document(user_id=user.id, title="Infs 311 past questions", file_type="PDF", file_path="/static/documents/infs 421.pdf",
+document_1 = Document(user_id=user.id, title="Infs 311 past questions",
+                       file_type="PDF", file_path="/static/documents/infs 421.pdf",
                     image_url="/static/images/doc/test.jpeg", classification_code="QD78",
                       abstract="This document contains past questions for Infs 421")
 document_1.save()
 
-document_2 = Document(user_id=user.id, title="Infs 429 past questions", file_type="PDF", file_path="/static/documents/infs 429.pdf",
+document_2 = Document(user_id=user.id, title="Infs 429 past questions",
+                       file_type="PDF", file_path="/static/documents/infs 429.pdf",
                     image_url="/static/images/doc/test.jpeg", classification_code="TD7",
                      abstract="This document contains past questions for Infs 429")
 document_2.save() 
@@ -32,7 +35,7 @@ document_2.save()
 # Creation of research session
 start_time = datetime.utcnow()
 end_time = start_time + timedelta(hours=2)
-research_session = ResearchSession(user_id=user.id, session_start=start_time, session_end=end_time)
+research_session = ResearchSession(user_id=user.id, session_title="Information Science past question", session_start=start_time, session_end=end_time)
 research_session.save()
 
 research_session.documents_accessed.append(document_1)
@@ -52,7 +55,7 @@ notification = Notification(user_id=user.id, message="You have a new notificatio
 notification.save()
 
 #creation of abstract
-abstract = Abstract(document_id=document_1.id, abstract_text="This is an abstract for the document")
+abstract = Abstract(user_id=user.id, document_id=document_1.id, abstract_text="This is an abstract for the document")
 abstract.save()
 
 #Creation of classification
@@ -112,7 +115,7 @@ for query in queries:
 print("\nResearch Sessions:")
 sessions = storage.all(ResearchSession).values()
 for session in sessions:
-    print(f"ID: {session.id}, User ID: {session.user_id}, Start: {session.session_start}, End: {session.session_end}")
+    print(f"ID: {session.id}, User ID: {session.user_id}, Session Title: {session.session_title}, Start: {session.session_start}, End: {session.session_end}")
     print("Accessed Documents:")
     for doc in session.documents_accessed:
         print(f" - {doc.title}")
@@ -127,7 +130,7 @@ for notif in notifications:
 print("\nAbstracts:")
 abstracts = storage.all(Abstract).values()
 for abstract in abstracts:
-    print(f"ID: {abstract.id}, Document ID: {abstract.document_id}, Text: {abstract.abstract_text}")
+    print(f"ID: {abstract.id}, User ID: {user.id}, Document ID: {abstract.document_id}, Text: {abstract.abstract_text}")
 
 # Fetch and display classifications
 print("\nClassifications:")

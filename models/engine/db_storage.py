@@ -2,7 +2,7 @@
 """Database storage"""
 
 from os import getenv
-from typing import Dict
+from typing import Dict, Optional
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from typing import List, Any
@@ -65,6 +65,10 @@ class DB_storage():
         if cls not in classes.values():
             raise ValueError("Invalid class provided for search.")
         return self.__session.query(cls).filter(cls.classification_code == code)
+    
+    def get_user_by_email(self, email: str) -> Optional[User]:
+        """Fetch user by email"""
+        return self.__session.query(User).filter_by(email=email).first()
 
     def new(self, obj):
         """add the object to the current database session"""

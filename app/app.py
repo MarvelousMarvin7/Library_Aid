@@ -5,10 +5,23 @@ from flask import Flask, make_response
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from app.api.routes import api
+from app.api.routes.config import blacklist
 from models import storage
 from os import getenv
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = getenv("LIAID_JWT_SECRET_KEY")
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
+app.config["JWT_ALGORITHM"] = "HS256"
+jwt = JWTManager(app)
+
+
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blacklist(jwt_header, jwt_payload):
+    """Check if a token is in the blacklist"""
+    jti = jwt_payload['jti']
+    return jti in blacklist
+
 app.register_blueprint(api)
 cors = CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
 

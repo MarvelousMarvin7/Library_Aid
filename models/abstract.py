@@ -7,6 +7,8 @@ from sqlalchemy import Column, ForeignKey, String, Text
 class Abstract(BaseModel, Base):
     """Representation of abstracts entity for AI"""
     __tablename__ = 'abstracts'
+    user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
+                     nullable=False)
     document_id = Column(String(60), ForeignKey('documents.id', ondelete='CASCADE'),
                          nullable=False)
     abstract_text = Column(Text, nullable=False)

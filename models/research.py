@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ holds class Research Session"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, ForeignKey, String, DateTime
+from sqlalchemy import Column, ForeignKey, String, DateTime, Text
 from sqlalchemy.orm import relationship
 import uuid
 
@@ -34,6 +34,7 @@ class ResearchSession(BaseModel, Base):
     user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
     session_start = Column(DateTime, nullable=False)
+    session_title = Column(Text, nullable=False)
     session_end = Column(DateTime, nullable=False)
     queries = relationship("Query", backref="research_session")
     documents_accessed = relationship('Document',
