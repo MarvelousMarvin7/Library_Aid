@@ -47,8 +47,8 @@ def update_document_tags(document_id: str) -> Union[Response, dict]:
             if tag and tag.user_id == user_id:
                 document.tags.append(tag)
             else:
-                return jsonify({"error": f"Invalid or
-                                 unauthorized tag ID: {tag_id}"}), 400
+                return jsonify({"error": f"Invalid or \
+                                unauthorized tag ID: {tag_id}"}), 400
 
         storage.save()
         return jsonify({"message": "Tags updated successfully"}), 200
