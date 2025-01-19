@@ -9,8 +9,6 @@ class Query(BaseModel, Base):
     __tablename__ = 'queries'
     user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
-    document_id = Column(String(60), ForeignKey('documents.id', ondelete='CASCADE'),
-                        nullable=False)
     research_session_id = Column(String(60), ForeignKey('research_sessions.id',
                                                         ondelete='CASCADE'),
                                                         nullable=False)

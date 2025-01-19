@@ -42,8 +42,7 @@ research_session.documents_accessed.append(document_1)
 research_session.documents_accessed.append(document_2)
 
 # Creation of a querry
-query = Query(user_id=user.id, 
-              document_id=document_1.id,
+query = Query(user_id=user.id,
               research_session_id=research_session.id, 
               query_text="What is Information systems?", 
               response_text="Information systems blabla bla test me.")
@@ -109,7 +108,7 @@ for doc in documents:
 print("\nQueries:")
 queries = storage.all(Query).values()
 for query in queries:
-    print(f"ID: {query.id}, User ID: {query.user_id}, Document ID: {query.document_id}, Text: {query.query_text}, Response: {query.response_text}")
+    print(f"ID: {query.id}, User ID: {query.user_id}, Text: {query.query_text}, Response: {query.response_text}")
 
 # Fetch and display research sessions
 print("\nResearch Sessions:")

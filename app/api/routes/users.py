@@ -43,7 +43,7 @@ def post_user() -> Union[Response, dict]:
          if k != 'password'},
             "access_token": token,
             "refresh_token": refresh_token
-         }), 201
+         }), 200
     except Exception as e:
             return jsonify({"error whiles creating user": str(e)}), 500
 

@@ -35,7 +35,7 @@ class ResearchSession(BaseModel, Base):
                         nullable=False)
     session_start = Column(DateTime, nullable=False)
     session_title = Column(Text, nullable=False)
-    session_end = Column(DateTime, nullable=False)
+    session_end = Column(DateTime, nullable=True)
     queries = relationship("Query", backref="research_session")
     documents_accessed = relationship('Document',
                                         secondary='session_documents',

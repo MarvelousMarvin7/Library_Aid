@@ -134,113 +134,6 @@ def admin_update_user(user_id: str):
     return jsonify(user.to_dict()), 200
 
 
-@api.route('/admin/documents', methods=['GET'], strict_slashes=False)
-@jwt_required()
-def admin_get_documents():
-    """Admin: Get all documents"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    documents = [doc.to_dict() for doc in storage.all(Document).values()]
-    return jsonify(documents), 200
-
-
-@api.route('/admin/documents/<document_id>', methods=['GET'], strict_slashes=False)
-@jwt_required()
-def admin_get_document(document_id: str):
-    """Admin: Get document by ID"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    document = storage.get(Document, document_id)
-    if not document:
-        abort(404, "Document not found")
-
-    return jsonify(document.to_dict()), 200
-
-
-@api.route('/admin/documents/<document_id>', methods=['DELETE'], strict_slashes=False)
-@jwt_required()
-def admin_delete_document(document_id: str):
-    """Admin: Delete document by ID"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    document = storage.get(Document, document_id)
-    if not document:
-        abort(404, "Document not found")
-
-    storage.delete(document)
-    storage.save()
-    return jsonify({}), 200
-
-
-@api.route('/admin/abstracts', methods=['GET'], strict_slashes=False)
-@jwt_required()
-def admin_get_abstracts():
-    """Admin: Get all abstracts"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    abstracts = [abs.to_dict() for abs in storage.all(Abstract).values()]
-    return jsonify(abstracts), 200
-
-
-@api.route('/admin/abstracts/<abstract_id>', methods=['GET'], strict_slashes=False)
-@jwt_required()
-def admin_get_abstract(abstract_id: str):
-    """Admin: Get abstract by ID"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    abstract = storage.get(Abstract, abstract_id)
-    if not abstract:
-        abort(404, "Abstract not found")
-
-    return jsonify(abstract.to_dict()), 200
-
-
-@api.route('/admin/abstracts/<abstract_id>', methods=['DELETE'], strict_slashes=False)
-@jwt_required()
-def admin_delete_abstract(abstract_id: str):
-    """Admin: Delete abstract by ID"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    abstract = storage.get(Abstract, abstract_id)
-    if not abstract:
-        abort(404, "Abstract not found")
-
-    storage.delete(abstract)
-    storage.save()
-    return jsonify({}), 200
-
-
-@api.route('/admin/notifications', methods=['GET'], strict_slashes=False)
-@jwt_required()
-def admin_get_notifications():
-    """Admin: Get all notifications"""
-    user_id = get_jwt_identity()
-    user = storage.get(User, user_id)
-    if not user or not user.is_admin:
-        abort(403, "Admins only")
-
-    notifications = [n.to_dict() for n in storage.all(Notification).values()]
-    return jsonify(notifications), 200
-
-
 @api.route('/admin/notifications/<notification_id>', methods=['GET'], strict_slashes=False)
 @jwt_required()
 def admin_get_notification(notification_id: str):
@@ -297,4 +190,4 @@ def admin_post_notification(user_id: str):
     notification = Notification(**data)
     notification.user_id = user_id
     notification.save()
-    return jsonify(notification.to_dict()), 201
+    return jsonify(notification.to_dict()), 200

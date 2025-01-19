@@ -72,7 +72,7 @@ def post_abstract(document_id) -> Union[Response, dict]:
             user_id=user_id,
             message=f"Abstract for {document.title} created")
         notification.save()
-        return make_response(jsonify(new_abstract.to_dict()), 201)
+        return make_response(jsonify(new_abstract.to_dict()), 200)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

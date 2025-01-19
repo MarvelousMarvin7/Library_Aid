@@ -13,3 +13,5 @@ from app.api.routes.abstracts import *
 from app.api.routes.notifications import *
 from app.api.routes.queries import *
 from app.api.routes.researches import *
+from app.api.routes.tags import *
+
