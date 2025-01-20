@@ -3,7 +3,7 @@
 
 from app.api.routes import api
 from typing import Union
-from flask import jsonify, Response, request, abort, make_response
+from flask import jsonify, Response, request, abort
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from typing import Union
 from models import storage
@@ -24,34 +24,36 @@ def get_document_tags(document_id: str) -> Union[Response, dict]:
     return jsonify(tags), 200
 
 
-@api.route('/documents/<document_id>/tags', methods=['PUT'],
-            strict_slashes=False)
+@api.route('/documents/<document_id>/tags',
+            methods=['POST'], strict_slashes=False)
 @jwt_required()
-def update_document_tags(document_id: str) -> Union[Response, dict]:
-    """Update tags for a document"""
+def post_document_tag(document_id: str) -> Union[Response, dict]:
+    """Associate a predefined enum tag with a document"""
     user_id = get_jwt_identity()
     document = storage.get(Document, document_id)
-
     if document is None or document.user_id != user_id:
-        abort(404, "Document not found or access denied")
+        return jsonify({"error": "Document not found or access denied"}), 404
 
     data = request.get_json(silent=True)
-    if data is None or 'tag_ids' not in data:
-        return jsonify({"error": "Not a JSON or missing tag_ids"}), 400
+    if data is None or 'tag_name' not in data:
+        return jsonify({"error": "Not a JSON or missing tag_name"}), 400
+
+    predefined_tags = ['AI', 'Important', 'Art', 'Science', 'Mathematics',
+                       'My Document', 'History', 'Archaeology', 'Physics',
+                       'Economics', 'Chemistry', 'Research', 'Technology']
+
+    tag_name = data['tag_name']
+    if tag_name not in predefined_tags:
+        return jsonify({"error": f"Invalid tag name: {tag_name}"}), 400
 
     try:
-        document.tags.clear()
+        if tag_name not in [tag.tag for tag in document.tags]:
+            tag = Tag(tag=tag_name)
+            document.tags.append(tag)
+            storage.save()
 
-        for tag_id in data['tag_ids']:
-            tag = storage.get(Tag, tag_id)
-            if tag and tag.user_id == user_id:
-                document.tags.append(tag)
-            else:
-                return jsonify({"error": f"Invalid or \
-                                unauthorized tag ID: {tag_id}"}), 400
-
-        storage.save()
-        return jsonify({"message": "Tags updated successfully"}), 200
+        return jsonify({"message": f"Tag '\
+                        {tag_name}' associated with document"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -69,7 +71,7 @@ def delete_document_tag(document_id: str,
         abort(404, "Document not found or access denied")
 
     tag = storage.get(Tag, tag_id)
-    if tag is None or tag.user_id != user_id or tag not in document.tags:
+    if tag is None or tag not in document.tags:
         abort(404, "Tag not found or unauthorized")
 
     try:

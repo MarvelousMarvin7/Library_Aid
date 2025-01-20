@@ -31,6 +31,11 @@ class Document(BaseModel, Base):
     
     __table_args__ = (Index('my_index', "title", "classification_code"),)
 
+    def to_dict(self):
+        """Extend the BaseModel's to_dict to include tags."""
+        doc_dict = super().to_dict()
+        doc_dict['tags'] = [tag.tag for tag in self.tags]
+        return doc_dict
 
     def __init__(self, *args, **kwargs):
         """initializes Document"""

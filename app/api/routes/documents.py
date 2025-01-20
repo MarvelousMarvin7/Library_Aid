@@ -96,18 +96,6 @@ def post_document() -> dict:
     try:
         data['user_id'] = user_id
         document = Document(**data)
-        if 'tags' in data:
-            predefined_tags = [tag.tag for tag in storage.all(Tag).values()]
-            invalid_tags = [t for t in data['tags'] if t not in predefined_tags]
-            
-            if invalid_tags:
-                return jsonify({"error": f"Invalid tags:\
-                                 {', '.join(invalid_tags)}"}), 400
-
-            for tag_name in data['tags']:
-                tag = storage.get_by_name(Tag, tag_name)
-                if tag:
-                    document.tags.append(tag)
         document.save()
         storage.save()
         return jsonify(document.to_dict()), 200

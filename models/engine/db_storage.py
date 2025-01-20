@@ -73,10 +73,6 @@ class DB_storage():
     def get_user_by_email(self, email: str) -> Optional[User]:
         """Fetch user by email"""
         return self.__session.query(User).filter_by(email=email).first()
-    
-    def get_by_name(self, name: str) -> List[Tag]:
-        """Fetch tags by name"""
-        return self.__session.query(Tag).filter_by(name=name).all()
 
     def new(self, obj):
         """add the object to the current database session"""
