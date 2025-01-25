@@ -17,15 +17,13 @@ class SessionDocuments(Base):
                                     ForeignKey('research_sessions.id',
                                                 ondelete='CASCADE',
                                                 onupdate='CASCADE'
-                                                )
-                                )
+                                                ), nullable=False)
     document_id = Column('document_id',
                           String(60),
                             ForeignKey('documents.id',
                                         ondelete='CASCADE',
                                         onupdate='CASCADE'
-                                        )
-                        )
+                                        ), nullable=False)
 
 
 class ResearchSession(BaseModel, Base):
@@ -33,8 +31,8 @@ class ResearchSession(BaseModel, Base):
     __tablename__ = 'research_sessions'
     user_id = Column(String(60), ForeignKey('users.id', ondelete='CASCADE'),
                         nullable=False)
-    session_start = Column(DateTime, nullable=False)
     session_title = Column(Text, nullable=False)
+    session_start = Column(DateTime, nullable=False)
     session_end = Column(DateTime, nullable=True)
     queries = relationship("Query", backref="research_session")
     documents_accessed = relationship('Document',

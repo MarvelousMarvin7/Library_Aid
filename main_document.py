@@ -30,7 +30,28 @@ document_2 = Document(user_id=user.id, title="Infs 429 past questions",
                        file_type="PDF", file_path="/static/documents/infs 429.pdf",
                     image_url="/static/images/doc/test.jpeg", classification_code="TD7",
                      abstract="This document contains past questions for Infs 429")
-document_2.save() 
+document_2.save()
+#Creation of classification
+# Create a parent classification
+classification = Classification(
+    name="Technology",
+    category_code="TECH",
+    description="Topics related to technology."
+)
+classification.save()
+
+# Create a child classification
+child_classification = Classification(
+    name="Artificial Intelligence",
+    category_code="TECH_AI",
+    description="Topics related to AI.",
+    parent_id=classification.id
+)
+child_classification.save()
+
+# Assign the document to the child classification
+document_2.classification_id = child_classification.id
+document_2.save()
 
 # Creation of research session
 start_time = datetime.utcnow()
@@ -56,27 +77,6 @@ notification.save()
 #creation of abstract
 abstract = Abstract(user_id=user.id, document_id=document_1.id, abstract_text="This is an abstract for the document")
 abstract.save()
-
-#Creation of classification
-# -------------------------
-# Create a parent classification
-parent_classification = Classification(
-    document_id=document_2.id,
-    name="Technology",
-    category_code="TECH",
-    description="Topics related to technology."
-)
-parent_classification.save()
-
-# Create a child classification
-child_classification = Classification(
-    document_id=document_2.id,
-    name="Artificial Intelligence",
-    category_code="TECH_AI",
-    description="Topics related to AI.",
-    parent_id=parent_classification.id
-)
-child_classification.save()
 
 # tag creation
 tag1 = Tag(tag="AI")

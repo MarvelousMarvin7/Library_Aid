@@ -10,7 +10,6 @@ from app.api.routes import api
 from flask import jsonify, request, abort, make_response, Response
 from models import storage
 from models.document import Document
-from models.tag import Tag
 
 
 @api.route('/documents', methods=['GET'], strict_slashes=False)
@@ -18,9 +17,12 @@ from models.tag import Tag
 def get_documents() -> dict:
     """Get all documents for a user"""
     user_id = get_jwt_identity()
-    documents = [document.to_dict() for document
-                  in storage.all(Document).values()
-                 if document.user_id == user_id]
+    documents = []
+    for document in storage.all(Document).values():
+        if document.user_id == user_id:
+            document_data = document.to_dict()
+            document_data['classification_code'] = document.class_code
+            documents.append(document_data)
     return jsonify(documents), 200
 
 
@@ -33,7 +35,9 @@ def get_document(document_id: str) -> dict:
     document = storage.get(Document, document_id)
     if document is None or document.user_id != user_id:
         abort(404, "Document not found or access denied")
-    return jsonify(document.to_dict())
+    document_data = document.to_dict()
+    document_data['classification_code'] = document.class_code
+    return jsonify(document_data), 200
 
 
 @api.route('/documents/search/title', methods=['GET'], strict_slashes=False)
@@ -47,9 +51,13 @@ def search_documents_by_title() -> List:
 
     try:
         documents = storage.search_by_title(Document, title)
-        user_documents = [doc.to_dict() for doc in documents
-                           if doc.user_id == user_id]
-        return jsonify(user_documents)
+        user_documents = []
+        for doc in documents:
+            if doc.user_id == user_id:
+                document_data = doc.to_dict()
+                document_data['classification_code'] = doc.class_code
+                user_documents.append(document_data)
+        return jsonify(user_documents), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception as e:
@@ -68,8 +76,13 @@ def search_documents_by_classification_code() -> dict:
 
     try:
         documents = storage.search_by_classification_code(Document, code)
-        user_documents = [doc.to_dict() for doc in documents if doc.user_id == user_id]
-        return jsonify(user_documents)
+        user_documents = []
+        for doc in documents:
+            if doc.user_id == user_id:
+                document_data = doc.to_dict()
+                document_data['classification_code'] = doc.class_code
+                user_documents.append(document_data)
+        return jsonify(user_documents), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception as e:
@@ -92,13 +105,19 @@ def post_document() -> dict:
 
     if data['file_type'] not in ['PDF', 'TXT', 'JPEG', 'DOCX', 'PNG']:
         return jsonify({"error": "Invalid file_type"}), 400
+    
+    file_exist = storage.check_file_exists(Document, data['file_path'])
+    if file_exist:
+        return jsonify(
+            {"error": f"File already exists in the database: {data['file_path']}"}
+            ), 400
 
     try:
         data['user_id'] = user_id
         document = Document(**data)
         document.save()
         storage.save()
-        return jsonify(document.to_dict()), 200
+        return jsonify(document.to_dict()), 201
     except Exception as e:
         return jsonify({"error while creating document": str(e)}), 500
 

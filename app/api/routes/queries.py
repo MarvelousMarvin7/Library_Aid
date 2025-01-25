@@ -38,7 +38,7 @@ def query_session(session_id: str) -> Union[Response, dict]:
             "query_id": query.id,
             "query_text": query.query_text,
             "response_text": query.response_text,
-        }), 200
+        }), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

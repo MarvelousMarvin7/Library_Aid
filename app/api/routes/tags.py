@@ -53,7 +53,7 @@ def post_document_tag(document_id: str) -> Union[Response, dict]:
             storage.save()
 
         return jsonify({"message": f"Tag '\
-                        {tag_name}' associated with document"}), 200
+                        {tag_name}' associated with document"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

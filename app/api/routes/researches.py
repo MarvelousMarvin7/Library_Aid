@@ -41,13 +41,12 @@ def create_session():
                 accessed_documents.append({
                     "id": document.id,
                     "title": document.title,
-                    "created_at": document.created_at
                 })
         storage.save()
 
         response = session.to_dict()
         response["documents_accessed"] = accessed_documents
-        return jsonify(response), 200
+        return jsonify(response), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

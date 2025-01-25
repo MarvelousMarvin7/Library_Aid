@@ -2,7 +2,7 @@
 """Routes to all admin restful api actions for Library aid
 helps to balance between normal users and admin users"""
 
-from typing import List, Union
+from typing import Union
 from app.api.routes import api
 from app.api.routes.config import blacklist
 from flask import jsonify, Response, request, abort, make_response
@@ -10,10 +10,6 @@ from flask_jwt_extended import get_jwt, jwt_required, get_jwt_identity,\
       create_access_token, create_refresh_token
 from models import storage
 from models.user import User
-from models.document import Document
-from models.abstract import Abstract
-from models.research import ResearchSession
-from models.query import Query
 from models.notification import Notification
 
 
@@ -190,4 +186,4 @@ def admin_post_notification(user_id: str):
     notification = Notification(**data)
     notification.user_id = user_id
     notification.save()
-    return jsonify(notification.to_dict()), 200
+    return jsonify(notification.to_dict()), 201

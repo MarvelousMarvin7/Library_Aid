@@ -60,16 +60,34 @@ class DB_storage():
             raise ValueError("Invalid class provided for search.")
         return self.__session.query(cls).filter(cls.title.ilike(f"%{title}%"))
     
-    def search_by_classification_code(self, cls, code: str) -> List[Any]:
-        """Search for objects of a specific class by classification code."""
+    def search_by_classification_code(self, cls, code: str) -> Any:
+        """Search for objects of a specific class by classification code
+        or category code for institutional users."""
         if cls not in classes.values():
             raise ValueError("Invalid class provided for search.")
-        return self.__session.query(cls).filter(cls.classification_code == code)
-    
+        if hasattr(cls, 'classification_code'):
+            return self.__session.query(cls).filter(cls.classification_code.ilike(f"%{code}%"))
+        elif hasattr(cls, 'category_code'):
+            return self.__session.query(cls).filter(cls.category_code.ilike(f"%{code}%"))
+        else:
+            raise AttributeError(f"The class {cls.__name__}\
+                                  does not have classification_code or\
+                                  category_code.")
+
+    def check_file_exists(self, cls, file_path: str) -> bool:
+        """Check if a file exists in the database."""
+        if cls not in classes.values():
+            raise ValueError("Invalid class provided for search.")
+        return self.__session.query(cls).filter(cls.file_path == file_path).count() > 0
+
+    def filter_first(self, cls, **filters):
+        """Filter a model by a set of parameters and return the first result."""
+        return self.__session.query(cls).filter_by(**filters).first()
+
     def get_user_sessions(self, user_id: str) -> List[ResearchSession]:
         """Fetch all research sessions for a user."""
-        return self.__session.query(ResearchSession).filter_by(user_id=user_id).all()    
-    
+        return self.__session.query(ResearchSession).filter_by(user_id=user_id).all()
+
     def get_user_by_email(self, email: str) -> Optional[User]:
         """Fetch user by email"""
         return self.__session.query(User).filter_by(email=email).first()

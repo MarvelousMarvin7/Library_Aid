@@ -11,7 +11,7 @@ from models.notification import Notification
 
 @api.route('/notifications', methods=['GET'], strict_slashes=False)
 @jwt_required()
-def get_user_notifications(user_id: str) -> Union[Response, dict]:
+def get_user_notifications() -> Union[Response, dict]:
     """Get list of all notifications for
     the current user"""
     user_id = get_jwt_identity()
