@@ -4,12 +4,31 @@
 from flask import Flask, make_response
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from flasgger import Swagger
 from app.api.routes import api
 from app.api.routes.config import blacklist
 from models import storage
 from os import getenv
 
 app = Flask(__name__)
+app.config['SWAGGER'] = {
+    'title': 'LIBRARY AID WEB APPLICATION',
+    'uiversion': 3,
+    'description': 'API for LIAID project fullstack application',
+    'contact': {
+        'name': 'Marvin Agyei',
+        'email': 'marvinagyei3@gmail.com',
+        'url': 'https://github.com/MarvelousMarvin7/Library_Aid'
+    },
+    'servers': [
+        {
+            'url': 'http://127.0.0.1:5000',
+            'description': 'Local host server'
+        },
+    ]
+}
+swagger = Swagger(app)
+
 app.config["JWT_SECRET_KEY"] = getenv("LIAID_JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
 app.config["JWT_ALGORITHM"] = "HS256"
