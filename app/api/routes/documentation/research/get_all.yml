@@ -1,0 +1,53 @@
+# get all research sessions for the logged-in user
+---
+tags:
+  - Research Sessions
+summary: Get all research sessions for the logged-in user
+description: Endpoint to get all research sessions for the logged-in user. The user must be authenticated.
+operationId: getSessions
+security:
+  - bearerAuth: []
+parameters:
+  - name: active
+    in: query
+    required: false
+    description: Filter to include only active sessions
+    schema:
+      type: boolean
+responses:
+  '200':
+    description: Sessions successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              session_title:
+                type: string
+                example: "My Research Session"
+              session_start:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+              session_end:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+              active:
+                type: boolean
+                example: true
+  '500':
+    description: Internal server error. Something went wrong while retrieving the sessions.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the sessions"

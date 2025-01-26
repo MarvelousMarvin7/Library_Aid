@@ -1,0 +1,43 @@
+# delete a research session
+---
+tags:
+  - Research Sessions
+summary: Delete a research session
+description: Endpoint to delete a research session. The user must be authenticated.
+operationId: deleteSession
+security:
+  - bearerAuth: []
+parameters:
+  - name: session_id
+    in: path
+    required: true
+    description: The ID of the session to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: Session successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '404':
+    description: Not found. The session was not found or unauthorized.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Session not found or unauthorized"
+  '500':
+    description: Internal server error. Something went wrong while deleting the session.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the session"

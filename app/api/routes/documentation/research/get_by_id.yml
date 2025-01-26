@@ -1,0 +1,75 @@
+# get a research session by its ID
+---
+tags:
+  - Research Sessions
+summary: Get a research session by its ID
+description: Endpoint to get a research session by its ID. The user must be authenticated.
+operationId: getSessionById
+security:
+  - bearerAuth: []
+parameters:
+  - name: session_id
+    in: path
+    required: true
+    description: The ID of the session to retrieve
+    schema:
+      type: string
+responses:
+  '200':
+    description: Session successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            session_title:
+              type: string
+              example: "My Research Session"
+            session_start:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            session_end:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            queries:
+              type: array
+              example: ['what is the capital of France?', 'what is the population of China?']
+            documents_accessed:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+                  title:
+                    type: string
+                    example: "Document Title"
+  '404':
+    description: Not found. The session was not found or unauthorized.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Session not found or unauthorized"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the session.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the session"

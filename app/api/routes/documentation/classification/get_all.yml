@@ -1,0 +1,54 @@
+# get all classifications
+---
+tags:
+  - Classifications
+summary: Get all classifications
+description: Endpoint to get all classifications. The user must be authenticated as an institutional user.
+operationId: getClassifications
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Classifications successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              name:
+                type: string
+                example: "Science"
+              category_code:
+                type: string
+                example: "SCI"
+              description:
+                type: string
+                example: "Scientific documents"
+              document_name:
+                type: string
+                example: "Document Title"
+  '403':
+    description: Forbidden. The user is not authorized to perform this action.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Only institutional users can access classifications"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the classifications.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the classifications"

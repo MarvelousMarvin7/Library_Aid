@@ -1,0 +1,55 @@
+# get all queries for a specific research session
+---
+tags:
+  - Queries
+summary: Get all queries for a specific research session
+description: Endpoint to get all queries for a specific research session. The user must be authenticated.
+operationId: getSessionQueries
+security:
+  - bearerAuth: []
+parameters:
+  - name: session_id
+    in: path
+    required: true
+    description: The ID of the session to retrieve queries for
+    schema:
+      type: string
+responses:
+  '200':
+    description: Queries successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              query_text:
+                type: string
+                example: "What is the impact of AI on modern education?"
+              response_text:
+                type: string
+                example: "AI has a significant impact on modern education by..."
+  '404':
+    description: Not found. The session was not found or unauthorized.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Session not found or unauthorized"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the queries.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the queries"

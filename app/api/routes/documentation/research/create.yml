@@ -1,0 +1,83 @@
+# create a new research session
+---
+tags:
+  - Research Sessions
+summary: Create a new research session
+description: Endpoint to create a new research session. The user must be authenticated.
+operationId: createSession
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          session_title:
+            type: string
+            example: "My Research Session"
+          document_ids:
+            type: array
+            items:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+      required:
+        - session_title
+        - document_ids
+responses:
+  '201':
+    description: Session successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            session_title:
+              type: string
+              example: "My Research Session"
+            session_start:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            session_end:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            documents_accessed:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+                  title:
+                    type: string
+                    example: "Document Title"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing required fields"
+  '500':
+    description: Internal server error. Something went wrong while creating the session.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while creating the session"

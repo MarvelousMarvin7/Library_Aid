@@ -5,6 +5,7 @@ from app.api.routes import api
 from typing import Union
 from flask import jsonify, Response, request, abort
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flasgger import swag_from
 from typing import Union
 from models import storage
 from models.document import Document
@@ -14,6 +15,7 @@ from models.user import User
 
 @api.route('/classifications', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/classification/get_all.yml')
 def get_classifications() -> Union[Response, dict]:
     """Get all classifications"""
     user_id = get_jwt_identity()
@@ -34,7 +36,8 @@ def get_classifications() -> Union[Response, dict]:
 @api.route('/classifications/<classification_id>',
             methods=['GET'], strict_slashes=False)
 @jwt_required()
-def get_classification(classification_id: str):
+@swag_from('documentation/classification/get_by_id.yml')
+def get_classification(classification_id: str) -> Union[Response, dict]:
     """Get a classification by ID"""
     user_id = get_jwt_identity()
     user = storage.get(User, user_id)
@@ -55,7 +58,8 @@ def get_classification(classification_id: str):
 
 @api.route('/classifications/search/category_code', methods=['GET'], strict_slashes=False)
 @jwt_required()
-def search_documents_by_category_code() -> dict:
+@swag_from('documentation/classification/category_search.yml')
+def search_documents_by_category_code() -> Union[Response, dict]:
     """Search documents by classification's category
       code (institutional users only)"""
     user_id = get_jwt_identity()
@@ -88,6 +92,7 @@ def search_documents_by_category_code() -> dict:
 
 @api.route('/classify', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/classification/create.yml')
 def create_classification() -> Union[Response, dict]:
     """Create a new classification"""
     user_id = get_jwt_identity()
@@ -137,7 +142,8 @@ def create_classification() -> Union[Response, dict]:
 @api.route('/classifications/<classification_id>',
             methods=['DELETE'], strict_slashes=False)
 @jwt_required()
-def delete_classification(classification_id: str):
+@swag_from('documentation/classification/delete.yml')
+def delete_classification(classification_id: str) -> Union[Response, dict]:
     """Delete a classification"""
     user_id = get_jwt_identity()
     user = storage.get(User, user_id)

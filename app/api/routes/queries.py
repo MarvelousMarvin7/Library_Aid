@@ -5,6 +5,7 @@ from typing import Union
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.api.routes import api
 from flask import jsonify, request, Response
+from flasgger import swag_from
 from models import storage
 from models.query import Query
 from models.research import ResearchSession
@@ -12,6 +13,7 @@ from models.research import ResearchSession
 
 @api.route('/sessions/<session_id>/query', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/query/create.yml')
 def query_session(session_id: str) -> Union[Response, dict]:
     """Handle user queries for a specific active research session."""
     user_id = get_jwt_identity()
@@ -46,6 +48,7 @@ def query_session(session_id: str) -> Union[Response, dict]:
 @api.route('/sessions/<session_id>/query', methods=['GET'],
  strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/query/get_all.yml')
 def get_session_queries(session_id: str) -> Union[Response, dict]:
     """Get all queries for a specific active research session."""
     user_id = get_jwt_identity()

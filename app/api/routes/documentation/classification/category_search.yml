@@ -1,0 +1,84 @@
+# search documents by classification's category code
+---
+tags:
+  - Classifications
+summary: Search documents by classification's category code
+description: Endpoint to search documents by classification's category code. The user must be authenticated as an institutional user.
+operationId: searchDocumentsByCategoryCode
+security:
+  - bearerAuth: []
+parameters:
+  - name: category_code
+    in: query
+    required: true
+    description: The category code to search by
+    schema:
+      type: string
+responses:
+  '200':
+    description: Documents successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              name:
+                type: string
+                example: "Science"
+              category_code:
+                type: string
+                example: "SCI"
+              description:
+                type: string
+                example: "Scientific documents"
+              document_name:
+                type: string
+                example: "Document Title"
+              document_image:
+                type: string
+                example: "http://example.com/image.jpg"
+  '400':
+    description: Bad request. The category_code parameter is missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing category_code parameter"
+  '403':
+    description: Forbidden. The user is not authorized to perform this action.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Only institutional users are allowed to search by category code"
+  '404':
+    description: Not found. The classification was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Classification not found"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the documents.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the documents"

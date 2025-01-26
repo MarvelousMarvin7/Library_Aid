@@ -1,0 +1,85 @@
+# admin sign in
+---
+tags:
+  - Admin
+summary: Admin sign in
+description: Endpoint for admin to sign in.
+operationId: adminSignIn
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            example: "admin@example.com"
+          password:
+            type: string
+            example: "password123"
+      required:
+        - email
+        - password
+responses:
+  '200':
+    description: Admin user successfully signed in
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+                email:
+                  type: string
+                  example: "admin@example.com"
+                user_name:
+                  type: string
+                  example: "admin"
+                is_admin:
+                  type: boolean
+                  example: true
+                image_url:
+                  type: string
+                  example: "https://example.com/image.jpg"
+            access_token:
+              type: string
+              example: "access_token"
+            refresh_token:
+              type: string
+              example: "refresh_token"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing required fields"
+  '401':
+    description: Unauthorized. Invalid email or password.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Invalid email or password"
+  '500':
+    description: Internal server error. Something went wrong while signing in the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while signing in the user"

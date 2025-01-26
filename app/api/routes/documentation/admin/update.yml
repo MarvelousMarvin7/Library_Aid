@@ -1,0 +1,97 @@
+# update user by ID
+---
+tags:
+  - Admin
+summary: Update user by ID
+description: Endpoint to update a user by ID. The user must be authenticated as an admin.
+operationId: adminUpdateUser
+security:
+  - bearerAuth: []
+parameters:
+  - name: user_id
+    in: path
+    required: true
+    description: The ID of the user to update
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          user_name:
+            type: string
+            example: "new_username"
+          is_admin:
+            type: boolean
+            example: false
+responses:
+  '200':
+    description: User successfully updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            email:
+              type: string
+              example: "user@example.com"
+            user_name:
+              type: string
+              example: "new_username"
+            is_admin:
+              type: boolean
+              example: false
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '400':
+    description: Bad request. The JSON is missing or invalid.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Not a JSON"
+  '403':
+    description: Forbidden. The user is not authorized to perform this action.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Admins only"
+  '404':
+    description: Not found. The user was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "User not found"
+  '500':
+    description: Internal server error. Something went wrong while updating the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while updating the user"

@@ -1,0 +1,86 @@
+# admin sign up
+---
+tags:
+  - Admin
+summary: Admin sign up
+description: Endpoint for admin to sign up a new admin user.
+operationId: adminPostUser
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            example: "admin@example.com"
+          user_name:
+            type: string
+            example: "admin"
+          password:
+            type: string
+            example: "password123"
+          is_admin:
+            type: boolean
+            example: true
+          image_url:
+            type: string
+            example: https://example.com/image.jpg
+      required:
+        - email
+        - user_name
+        - password
+        - is_admin
+responses:
+  '201':
+    description: Admin user successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+                email:
+                  type: string
+                  example: "admin@example.com"
+                user_name:
+                  type: string
+                  example: "admin"
+                is_admin:
+                  type: boolean
+                  example: true
+                image_url:
+                  type: string
+                  example: https://example.com/image.jpg
+            access_token:
+              type: string
+              example: "access_token"
+            refresh_token:
+              type: string
+              example: "refresh_token"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing required fields"
+  '500':
+    description: Internal server error. Something went wrong while creating the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while creating the user"

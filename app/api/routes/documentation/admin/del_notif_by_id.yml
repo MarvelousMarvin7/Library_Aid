@@ -1,0 +1,53 @@
+# delete notification by ID
+---
+tags:
+  - Admin
+summary: Delete notification by ID
+description: Endpoint for admin to delete notification by ID.
+operationId: adminDeleteNotification
+security:
+  - bearerAuth: []
+parameters:
+  - name: notification_id
+    in: path
+    required: true
+    description: The ID of the notification to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: Notification successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '403':
+    description: Forbidden. Admins only.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Admins only"
+  '404':
+    description: Not found. The notification was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Notification not found"
+  '500':
+    description: Internal server error. Something went wrong while deleting the notification.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the notification"

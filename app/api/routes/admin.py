@@ -8,12 +8,14 @@ from app.api.routes.config import blacklist
 from flask import jsonify, Response, request, abort, make_response
 from flask_jwt_extended import get_jwt, jwt_required, get_jwt_identity,\
       create_access_token, create_refresh_token
+from flasgger import swag_from
 from models import storage
 from models.user import User
 from models.notification import Notification
 
 
 @api.route('/admin/signup', methods=['POST'], strict_slashes=False)
+@swag_from('documentation/admin/admin_create.yml')
 def admin_post_user() -> Union[Response, dict]:
     """Admin: Create or sign_up a new admin user"""
     data = request.get_json(silent=True)
@@ -51,6 +53,7 @@ def admin_post_user() -> Union[Response, dict]:
 
 
 @api.route('/admin/signin', methods=['POST'], strict_slashes=False)
+@swag_from('documentation/admin/admin_signin.yml')
 def admin_sign_in() -> Union[Response, dict]:
     """Admin: Sign in admin user"""
     data = request.get_json(silent=True)
@@ -85,6 +88,7 @@ def admin_sign_in() -> Union[Response, dict]:
 
 @api.route('/admin/signout', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/admin/admin_signout.yml')
 def admin_sign_out():
     """Admin: Sign out admin user"""
     jti = get_jwt()['jti']
@@ -94,6 +98,7 @@ def admin_sign_out():
 
 @api.route('/admin/users', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/admin/get_all-users.yml')
 def get_all_users():
     """Admin: Get all users"""
     user_id = get_jwt_identity()
@@ -107,6 +112,24 @@ def get_all_users():
 
 @api.route('/admin/users/<user_id>', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/admin/get_user_id.yml')
+def admin_get_user(user_id: str):
+    """Admin: Get user by ID"""
+    current_user_id = get_jwt_identity()
+    current_user = storage.get(User, current_user_id)
+    if not current_user or not current_user.is_admin:
+        abort(403, "Admins only")
+
+    user = storage.get(User, user_id)
+    if not user:
+        abort(404, "User not found")
+
+    return jsonify(user.to_dict()), 200
+
+
+@api.route('/admin/users/<user_id>', methods=['GET'], strict_slashes=False)
+@jwt_required()
+@swag_from('documentation/admin/update.yml')
 def admin_update_user(user_id: str):
     """Admin: Update user by ID"""
     current_user_id = get_jwt_identity()
@@ -130,8 +153,44 @@ def admin_update_user(user_id: str):
     return jsonify(user.to_dict()), 200
 
 
+@api.route('/admin/users/<user_id>', methods=['DELETE'], strict_slashes=False)
+@jwt_required()
+@swag_from('documentation/admin/delete.yml')
+def admin_delete_user(user_id: str):
+    """Admin: Delete user by ID"""
+    current_user_id = get_jwt_identity()
+    current_user = storage.get(User, current_user_id)
+    if not current_user or not current_user.is_admin:
+        abort(403, "Admins only")
+
+    user = storage.get(User, user_id)
+    if not user:
+        abort(404, "User not found")
+
+    storage.delete(user)
+    storage.save()
+    return jsonify({}), 200
+
+
+@api.route('/admin/notifications', methods=['GET'])
+@jwt_required()
+@swag_from('documentation/admin/get_notif.yml')
+def admin_all_notifications() -> Union[Response, dict]:
+    """Get Admin notifications"""
+    user_id = get_jwt_identity()
+    user = storage.get(User, user_id)
+    if not user or not user.is_admin:
+        abort(403, "Admins only")
+
+    notifications = [notification.to_dict() for notification
+                     in storage.all(Notification).values()
+                     if notification.user_id == user_id]
+    return jsonify(notifications), 200
+
+
 @api.route('/admin/notifications/<notification_id>', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/admin/get_notif_id.yml')
 def admin_get_notification(notification_id: str):
     """Admin: Get notification by ID"""
     user_id = get_jwt_identity()
@@ -149,6 +208,7 @@ def admin_get_notification(notification_id: str):
 @api.route('/admin/notifications/<notification_id>',
             methods=['DELETE'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/admin/del_notif_by_id.yml')
 def admin_delete_notification(notification_id: str):
     """Admin: Delete notification by ID"""
     user_id = get_jwt_identity()
@@ -167,6 +227,7 @@ def admin_delete_notification(notification_id: str):
 
 @api.route('admin/users/<user_id>/notification', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/admin/create_notif.yml')
 def admin_post_notification(user_id: str):
     """Admin: Create a new notification for a user"""
     data = request.get_json(silent=True)

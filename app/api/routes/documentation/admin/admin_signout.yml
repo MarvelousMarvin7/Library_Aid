@@ -1,0 +1,30 @@
+# admin sign out
+---
+tags:
+  - Admin
+summary: Admin sign out
+description: Endpoint for admin to sign out.
+operationId: adminSignOut
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Admin user successfully signed out
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            msg:
+              type: string
+              example: "Access token revoked"
+  '500':
+    description: Internal server error. Something went wrong while signing out the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while signing out the user"

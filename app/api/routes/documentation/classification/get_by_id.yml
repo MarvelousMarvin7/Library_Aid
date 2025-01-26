@@ -1,0 +1,72 @@
+# get a classification by ID
+---
+tags:
+  - Classifications
+summary: Get a classification by ID
+description: Endpoint to get a classification by ID. The user must be authenticated as an institutional user.
+operationId: getClassification
+security:
+  - bearerAuth: []
+parameters:
+  - name: classification_id
+    in: path
+    required: true
+    description: The ID of the classification to retrieve
+    schema:
+      type: string
+responses:
+  '200':
+    description: Classification successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            name:
+              type: string
+              example: "Science"
+            category_code:
+              type: string
+              example: "SCI"
+            description:
+              type: string
+              example: "Scientific documents"
+            document_name:
+              type: string
+              example: "Document Title"
+            document_image:
+              type: string
+              example: "http://example.com/image.jpg"
+  '403':
+    description: Forbidden. The user is not authorized to perform this action.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Only institutional users can access classifications"
+  '404':
+    description: Not found. The classification was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Classification not found"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the classification.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the classification"

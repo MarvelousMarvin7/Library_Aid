@@ -1,0 +1,53 @@
+# delete a classification by ID
+---
+tags:
+  - Classifications
+summary: Delete a classification by ID
+description: Endpoint to delete a classification by ID. The user must be authenticated as an institutional user.
+operationId: deleteClassification
+security:
+  - bearerAuth: []
+parameters:
+  - name: classification_id
+    in: path
+    required: true
+    description: The ID of the classification to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: Classification successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '403':
+    description: Forbidden. The user is not authorized to perform this action.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Only institutional users can delete classifications"
+  '404':
+    description: Not found. The classification was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Classification not found"
+  '500':
+    description: Internal server error. Something went wrong while deleting the classification.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the classification"
