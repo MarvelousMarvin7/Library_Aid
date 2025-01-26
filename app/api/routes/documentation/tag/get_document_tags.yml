@@ -1,0 +1,52 @@
+# get list of tags for a document by a user
+---
+tags:
+  - Tags
+summary: Get list of tags for a document by a user
+description: Endpoint to get list of tags for a document by a user. The user must be authenticated.
+operationId: getDocumentTags
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to retrieve tags for
+    schema:
+      type: string
+responses:
+  '200':
+    description: Tags successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              tag:
+                type: string
+                example: "AI"
+  '404':
+    description: Not found. The document was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the tags.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the tags"

@@ -1,0 +1,99 @@
+# create a new tag for a document
+---
+tags:
+  - Tags
+summary: Create a new tag for a document
+description: | 
+  Endpoint to create a new tag with predifined tags for a document. The user must be authenticated.
+  These are the defined tags:
+  - AI
+  - Important
+  - Art
+  - Science
+  - Mathematics
+  - History
+  - My Document
+  - Technology
+  - Research
+  - Chemistory
+  - Archaeology
+  - Physics
+  - Economics
+operationId: createTagForDocument
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to create a tag for
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          tag_name:
+            type: string
+            example: "AI"
+            description: One of the predifined tags
+            emum:
+              - AI
+              - Important
+              - Art
+              - Science
+              - Mathematics
+              - History
+              - My Document
+              - Technology
+              - Research
+              - Chemistory
+              - Archaeology
+              - Physics
+              - Economics
+      required:
+        - tag_name
+responses:
+  '201':
+    description: Tag successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Tag 'AI' associated with document"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Not a JSON or missing tag_name"
+  '404':
+    description: Not found. The document was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while creating the tag.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while creating the tag"

@@ -5,6 +5,7 @@ from app.api.routes import api
 from typing import Union
 from flask import jsonify, Response, request, abort
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flasgger import swag_from
 from typing import Union
 from models import storage
 from models.document import Document
@@ -14,6 +15,7 @@ from models.tag import Tag
 @api.route('/documents/<document_id>/tags', methods=['GET'],
             strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/tag/get_document_tags.yml')
 def get_document_tags(document_id: str) -> Union[Response, dict]:
     """Get list of tags for a document by a user"""
     user_id = get_jwt_identity()
@@ -27,6 +29,7 @@ def get_document_tags(document_id: str) -> Union[Response, dict]:
 @api.route('/documents/<document_id>/tags',
             methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/tag/create.yml')
 def post_document_tag(document_id: str) -> Union[Response, dict]:
     """Associate a predefined enum tag with a document"""
     user_id = get_jwt_identity()
@@ -61,6 +64,7 @@ def post_document_tag(document_id: str) -> Union[Response, dict]:
 @api.route('/documents/<document_id>/tags/<tag_id>',
             methods=['DELETE'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/tag/delete.yml')
 def delete_document_tag(document_id: str,
                          tag_id: str) -> Union[Response, dict]:
     """Delete a specific tag from a document"""
