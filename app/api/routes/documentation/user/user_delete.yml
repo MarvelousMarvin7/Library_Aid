@@ -1,0 +1,53 @@
+# delete a user by id
+---
+tags:
+  - Users
+summary: Delete user by id
+description: Endpoint to delete a user by their id. The user must be authenticated and can only delete their own account.
+operationId: deleteUser
+security:
+  - bearerAuth: []
+parameters:
+  - name: user_id
+    in: path
+    required: true
+    description: The ID of the user to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: User successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '403':
+    description: Forbidden. The user is not authorized to delete this information.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Access denied"
+  '404':
+    description: Not found. The user was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "User not found"
+  '500':
+    description: Internal server error. Something went wrong while deleting the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the user"

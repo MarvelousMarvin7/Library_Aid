@@ -1,0 +1,40 @@
+# sign out a user
+---
+tags:
+  - Users
+summary: Sign out a user
+description: Endpoint to log out a user by blacklisting their token.
+operationId: signOutUser
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: User successfully logged out
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Successfully logged out"
+  '401':
+    description: Unauthorized. The user is not authenticated.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing Authorization Header"
+  '500':
+    description: Internal server error. Something went wrong while logging out the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while logging out"

@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """Routes to all user restful api actions for Library aid"""
 
+import os
 from typing import Union
 from app.api.routes import api
 from app.api.routes.config import blacklist
 from flask import jsonify, Response, request, abort, make_response
 from flask_jwt_extended import create_access_token, create_refresh_token,\
       get_jwt, jwt_required, get_jwt_identity
+from flasgger import swag_from
 from models import storage
 from models.user import User
 
 
 @api.route('/signup', methods=['POST'], strict_slashes=False)
+@swag_from('documentation/user/user_signup.yml')
 def post_user() -> Union[Response, dict]:
     """Create or sign_up a new user"""
     data = request.get_json(silent=True)
@@ -49,6 +52,7 @@ def post_user() -> Union[Response, dict]:
 
 
 @api.route('/signin', methods=['POST'], strict_slashes=False)
+@swag_from('documentation/user/user_signin.yml')
 def sign_in() -> Union[Response, dict]:
     """Sign in user"""
     data = request.get_json(silent=True)
@@ -84,6 +88,7 @@ def sign_in() -> Union[Response, dict]:
 
 @api.route('/signout', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/user/user_signout.yml')
 def signout():
     """Logout user by blacklisting their token"""
     jti = get_jwt()['jti']
@@ -93,6 +98,7 @@ def signout():
 
 @api.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/user/user_update.yml')
 def put_user(user_id: str) -> Union[Response, dict]:
     """Update user by id"""
     if user_id != get_jwt_identity():
@@ -118,6 +124,7 @@ def put_user(user_id: str) -> Union[Response, dict]:
 
 @api.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/user/user_delete.yml')
 def delete_user(user_id: str) -> Union[Response, dict]:
     """Delete user by id"""
     if user_id != get_jwt_identity():

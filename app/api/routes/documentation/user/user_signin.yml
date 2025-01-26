@@ -1,0 +1,100 @@
+---
+tags:
+  - Users
+summary: Sign in a user
+description: Endpoint to sign in a user. The user will receive an access token and a refresh token upon successful sign-in.
+operationId: signInUser
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            format: email
+            example: user@example.com
+            description: User's email address.
+          password:
+            type: string
+            format: password
+            example: SecureP@ssword123
+            description: User's password.
+      required:
+        - email
+        - password
+responses:
+  '200':
+    description: User successfully signed in
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+                email:
+                  type: string
+                  example: user@example.com
+                user_name:
+                  type: string
+                  example: johndoe
+                image_url:
+                  type: string
+                  example: "https://example.com/image.jpg"
+                is_admin:
+                  type: boolean
+                  example: false
+                is_institution_user:
+                  type: boolean
+                created_at:
+                  type: string
+                  format: date-time
+                  example: "2025-01-25T12:34:56.789Z"
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: "2025-01-25T12:34:56.789Z"
+            access_token:
+              type: string
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              description: The JWT access token for authenticated requests.
+            refresh_token:
+              type: string
+              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              description: The JWT refresh token for renewing the access token.
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing required field: email"
+  '401':
+    description: Unauthorized. Invalid credentials.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Invalid credentials"
+  '500':
+    description: Internal server error. Something went wrong while signing in the user.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while signing in"

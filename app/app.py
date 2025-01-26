@@ -12,23 +12,45 @@ from os import getenv
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
-    'title': 'LIBRARY AID WEB APPLICATION',
+    'title': 'Library Aid API',
     'uiversion': 3,
-    'description': 'API for LIAID project fullstack application',
-    'contact': {
-        'name': 'Marvin Agyei',
-        'email': 'marvinagyei3@gmail.com',
-        'url': 'https://github.com/MarvelousMarvin7/Library_Aid'
+    'openapi': '3.0.2',
+    'components': {
+        'securitySchemes': {
+            'bearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT',
+            }
+        }
     },
+    'security': [{'bearerAuth': []}],
+    'info': {
+        'version': '1.0',
+        'title': 'Library Aid API',
+        'description': 'A web application to help manage library resources',
+        'contact': {
+            'name': 'Marvin Agyei',
+            'email': 'marvinagyei3@gmail.com',
+            'url': 'https://github.com/MarvelousMarvin7/Library_Aid'
+        },
+    },
+    'specs': [
+        {
+            'endpoint': 'apispec_1',
+            'route': '/apispec_1.json',
+            'rule_filter': lambda rule: True,
+            'model_filter': lambda tag: True,
+        }
+    ],
     'servers': [
         {
             'url': 'http://127.0.0.1:5000',
-            'description': 'Local host server'
-        },
-    ]
+            'description': 'Localhost server'
+        }
+    ],
 }
 swagger = Swagger(app)
-
 app.config["JWT_SECRET_KEY"] = getenv("LIAID_JWT_SECRET_KEY")
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
 app.config["JWT_ALGORITHM"] = "HS256"
