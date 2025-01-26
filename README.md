@@ -21,15 +21,15 @@ This project is developed using Python 3.11 and the required packages are listed
 * You can create a test data in your mysql database from `main_document.py` file by running this command on your command line:
     - for powershell:
     ```
-    $env:LIAID_MYSQL_USER="liaid_dev"; $env:LIAID_MYSQL_PWD="liaid_dev_pwd"; $env:LIAID_MYSQL_HOST="localhost"; $env:LIAID_MYSQL_DB="liaid_dev_db"; $env:LIAID_TYPE_STORAGE="db"; python ./main_document.py
+    $env:LIAID_MYSQL_USER="<your_mysql_user>"; $env:LIAID_MYSQL_PWD="<your_password>"; $env:LIAID_MYSQL_HOST="<your_host>"; $env:LIAID_MYSQL_DB="<your_database>"; $env:LIAID_TYPE_STORAGE="<your_db>"; python3 ./main_document.py
     ```
     - for cmd:
     ```
-    set LIAID_MYSQL_USER=liaid_dev && set LIAID_MYSQL_PWD=liaid_dev_pwd && set LIAID_MYSQL_HOST=localhost && set LIAID_MYSQL_DB=liaid_dev_db && set LIAID_TYPE_STORAGE=db && python ./main_document.py
+    set LIAID_MYSQL_USER=your_mysql_user && set LIAID_MYSQL_PWD=your_password && set LIAID_MYSQL_HOST=your_host && set LIAID_MYSQL_DB=your_database && set LIAID_TYPE_STORAGE=your_db && python3 ./main_document.py
     ```
     - for linux:
     ```
-    vagrant/Library_Aid$ LIAD_MYSQL_USER=liaid_dev LIAD_MYSQL_PWD=liaid_dev_pwd LIAD_MYSQL_HOST=localhost LIAD_MYSQL_DB=liaid_dev_db LIAD_TYPE_STORAGE=db python3 ./main_document.py
+    LIAD_MYSQL_USER=your_mysql_user LIAD_MYSQL_PWD=your_password LIAD_MYSQL_HOST=your_host LIAD_MYSQL_DB=your_database LIAD_TYPE_STORAGE=your_db python3 ./main_document.py
     ```
 * Create a `.env` file in the root directory and add the following environment variables
     ```
