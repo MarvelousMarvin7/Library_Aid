@@ -1,0 +1,53 @@
+# delete an abstract by id
+---
+tags:
+  - Abstracts
+summary: Delete abstract by id
+description: Endpoint to delete an abstract by its id. The user must be authenticated.
+operationId: deleteAbstract
+security:
+  - bearerAuth: []
+parameters:
+  - name: abstract_id
+    in: path
+    required: true
+    description: The ID of the abstract to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: Abstract successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '403':
+    description: Forbidden. The user is not authorized to delete this abstract.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Access denied"
+  '404':
+    description: Not found. The abstract was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Abstract not found"
+  '500':
+    description: Internal server error. Something went wrong while deleting the abstract.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the abstract"

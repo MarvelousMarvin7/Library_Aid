@@ -1,0 +1,86 @@
+# create a new abstract for a document
+---
+tags:
+  - Abstracts
+summary: Create a new abstract for a document
+description: Endpoint to create a new abstract for a document. The user must be authenticated.
+operationId: createAbstractForDocument
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to create an abstract for
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          abstract_text:
+            type: string
+            example: "This is an abstract text."
+      required:
+        - abstract_text
+responses:
+  '201':
+    description: Abstract successfully created
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            document_id:
+              type: string
+              example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            abstract_text:
+              type: string
+              example: "This is an abstract text."
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Not a JSON"
+  '404':
+    description: Not found. The document was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while creating the abstract.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while creating the abstract"

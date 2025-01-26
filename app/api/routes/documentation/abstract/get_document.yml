@@ -1,0 +1,66 @@
+# get of abstracts for a document
+---
+tags:
+  - Abstracts
+summary: Get list of abstracts for a document by a user
+description: Endpoint to get list of abstracts for a document by a user. The user must be authenticated.
+operationId: getDocumentAbstracts
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to retrieve abstracts for
+    schema:
+      type: string
+responses:
+  '200':
+    description: Abstracts successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              user_id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              document_id:
+                type: string
+                example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              abstract_text:
+                type: string
+                example: "This is an abstract text."
+              created_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+              updated_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+  '404':
+    description: Not found. The document was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the abstracts.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the abstracts"

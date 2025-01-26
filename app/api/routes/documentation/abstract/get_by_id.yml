@@ -1,0 +1,64 @@
+# get abstract by id
+---
+tags:
+  - Abstracts
+summary: Get abstract by id
+description: Endpoint to get an abstract by its id. The user must be authenticated.
+operationId: getAbstractById
+security:
+  - bearerAuth: []
+parameters:
+  - name: abstract_id
+    in: path
+    required: true
+    description: The ID of the abstract to retrieve
+    schema:
+      type: string
+responses:
+  '200':
+    description: Abstract successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            document_id:
+              type: string
+              example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            abstract_text:
+              type: string
+              example: "This is an abstract text."
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '404':
+    description: Not found. The abstract was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Abstract not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the abstract.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the abstract"

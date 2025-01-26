@@ -1,0 +1,94 @@
+# update an abstract by id
+---
+tags:
+  - Abstracts
+summary: Update abstract by id
+description: Endpoint to update an abstract by its id. The user must be authenticated.
+operationId: updateAbstract
+security:
+  - bearerAuth: []
+parameters:
+  - name: abstract_id
+    in: path
+    required: true
+    description: The ID of the abstract to update
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          abstract_text:
+            type: string
+            example: "This is an updated abstract text."
+responses:
+  '200':
+    description: Abstract successfully updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            document_id:
+              type: string
+              example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            abstract_text:
+              type: string
+              example: "This is an updated abstract text."
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Not a JSON"
+  '403':
+    description: Forbidden. The user is not authorized to update this abstract.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Access denied"
+  '404':
+    description: Not found. The abstract was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Abstract not found"
+  '500':
+    description: Internal server error. Something went wrong while updating the abstract.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while updating the abstract"

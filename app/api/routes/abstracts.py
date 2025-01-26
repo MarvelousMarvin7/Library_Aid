@@ -6,6 +6,7 @@ for authorized users
 from app.api.routes import api
 from flask import jsonify, Response, request, abort, make_response
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from flasgger import swag_from
 from typing import Union
 from models import storage
 from models.abstract import Abstract
@@ -15,6 +16,7 @@ from models.notification import Notification
 
 @api.route('/abstracts', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/abstract/get_all.yml')
 def get_abstracts() -> dict:
     """Get all abstracts for a user"""
     user_id = get_jwt_identity()
@@ -26,6 +28,7 @@ def get_abstracts() -> dict:
 
 @api.route('/abstracts/<abstract_id>', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/abstract/get_by_id.yml')
 def get_abstract(abstract_id: str) -> dict:
     """Get abstract by id"""
     user_id = get_jwt_identity()
@@ -37,6 +40,7 @@ def get_abstract(abstract_id: str) -> dict:
 
 @api.route('/documents/<document_id>/abstracts', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/abstract/get_document.yml')
 def get_document_abstract(document_id: str) -> Union[Response, dict]:
     """Get list of abstract for a document by a user"""
     user_id = get_jwt_identity()
@@ -49,6 +53,7 @@ def get_document_abstract(document_id: str) -> Union[Response, dict]:
 
 @api.route('documents/<document_id>/abstracts', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/abstract/create.yml')
 def post_abstract(document_id) -> Union[Response, dict]:
     """Create a new abstract for a document
     with abstract complete notification for a user
@@ -79,6 +84,7 @@ def post_abstract(document_id) -> Union[Response, dict]:
 
 @api.route('/abstracts/<abstract_id>', methods=['PUT'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/abstract/update.yml')
 def put_abstract(abstract_id: str) -> Union[Response, dict]:
     """Update an abstract by id"""
     user_id = get_jwt_identity()
@@ -97,6 +103,7 @@ def put_abstract(abstract_id: str) -> Union[Response, dict]:
 
 @api.route('/abstracts/<abstract_id>', methods=['DELETE'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/abstract/delete.yml')
 def delete_abstract(abstract_id: str) -> Union[Response, dict]:
     """Delete an abstract by id with user access and notification"""
     user_id = get_jwt_identity()
