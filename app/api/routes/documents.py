@@ -8,12 +8,14 @@ from typing import List, Union
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.api.routes import api
 from flask import jsonify, request, abort, make_response, Response
+from flasgger import swag_from
 from models import storage
 from models.document import Document
 
 
 @api.route('/documents', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/get_all.yml')
 def get_documents() -> dict:
     """Get all documents for a user"""
     user_id = get_jwt_identity()
@@ -29,6 +31,7 @@ def get_documents() -> dict:
 @api.route('/documents/<document_id>', methods=['GET'],
             strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/get_by_id.yml')
 def get_document(document_id: str) -> dict:
     """Get document by id"""
     user_id = get_jwt_identity()
@@ -42,6 +45,7 @@ def get_document(document_id: str) -> dict:
 
 @api.route('/documents/search/title', methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/search_title.yml')
 def search_documents_by_title() -> List:
     """Search documents by title"""
     user_id = get_jwt_identity()
@@ -67,6 +71,7 @@ def search_documents_by_title() -> List:
 @api.route('/documents/search/classification_code',
             methods=['GET'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/search_classification.yml')
 def search_documents_by_classification_code() -> dict:
     """Search documents by classification code"""
     user_id = get_jwt_identity()
@@ -91,6 +96,7 @@ def search_documents_by_classification_code() -> dict:
 
 @api.route('/documents', methods=['POST'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/create.yml')
 def post_document() -> dict:
     """Create a new document"""
     user_id = get_jwt_identity()
@@ -124,6 +130,7 @@ def post_document() -> dict:
 
 @api.route('/documents/<document_id>', methods=['PUT'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/update.yml')
 def put_document(document_id: str) -> Union[Response, dict]:
     """Update document by id"""
     user_id = get_jwt_identity()
@@ -145,6 +152,7 @@ def put_document(document_id: str) -> Union[Response, dict]:
 
 @api.route('/documents/<document_id>', methods=['DELETE'], strict_slashes=False)
 @jwt_required()
+@swag_from('documentation/document/delete.yml')
 def delete_document(document_id: str) -> Union[Response, dict]:
     """Delete document by id"""
     user_id = get_jwt_identity()

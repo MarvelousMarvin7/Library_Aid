@@ -1,0 +1,84 @@
+# search documents by title
+---
+tags:
+  - Documents
+summary: Search documents by title
+description: Endpoint to search documents by title. The user must be authenticated.
+operationId: searchDocumentsByTitle
+security:
+  - bearerAuth: []
+parameters:
+  - name: title
+    in: query
+    required: true
+    description: The title to search for
+    schema:
+      type: string
+responses:
+  '200':
+    description: Documents successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              user_id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              classification_id:
+                type: string
+                example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              title:
+                type: string
+                example: "Document Title"
+              description:
+                type: string
+                example: "Document Description"
+              file_path:
+                type: string
+                example: "/path/to/document.pdf"
+              file_type:
+                type: string
+                example: "PDF"
+              image_url:
+                type: string
+                example: "https://example.com/image.jpg"
+              classification_code:
+                type: string
+                example: "TECH"
+              abstract:
+                type: string
+                example: "Document Abstract"
+              created_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+              updated_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+  '400':
+    description: Bad request. The title is missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Missing title parameter"
+  '500':
+    description: Internal server error. Something went wrong while searching for documents.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while searching for documents"

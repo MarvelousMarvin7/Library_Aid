@@ -1,0 +1,53 @@
+# delete a document by id
+---
+tags:
+  - Documents
+summary: Delete document by id
+description: Endpoint to delete a document by its id. The user must be authenticated.
+operationId: deleteDocument
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: Document successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '403':
+    description: Forbidden. The user is not authorized to delete this document.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Access denied"
+  '404':
+    description: Not found. The document was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found"
+  '500':
+    description: Internal server error. Something went wrong while deleting the document.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the document"

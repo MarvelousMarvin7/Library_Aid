@@ -1,0 +1,130 @@
+# update a document by id
+---
+tags:
+  - Documents
+summary: Update document by id
+description: Endpoint to update a document by its id. The user must be authenticated.
+operationId: updateDocument
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to update
+    schema:
+      type: string
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          title:
+            type: string
+            example: "Updated Document Title"
+          description:
+            type: string
+            example: "Updated Document Description"
+          file_path:
+            type: string
+            example: "/path/to/updated_document.pdf"
+          file_type:
+            type: string
+            example: "PDF"
+          image_url:
+            type: string
+            example: "https://example.com/updated_image.jpg"
+          classification_code:
+            type: string
+            example: "TECH_UPDATED"
+          abstract:
+            type: string
+            example: "Updated Document Abstract"
+responses:
+  '200':
+    description: Document successfully updated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            classification_id:
+              type: string
+              example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            title:
+              type: string
+              example: "Updated Document Title"
+            description:
+              type: string
+              example: "Updated Document Description"
+            file_path:
+              type: string
+              example: "/path/to/updated_document.pdf"
+            file_type:
+              type: string
+              example: "PDF"
+            image_url:
+              type: string
+              example: "https://example.com/updated_image.jpg"
+            classification_code:
+              type: string
+              example: "TECH_UPDATED"
+            abstract:
+              type: string
+              example: "Updated Document Abstract"
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '400':
+    description: Bad request. Either the JSON is missing, or required fields are missing.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Not a JSON"
+  '403':
+    description: Forbidden. The user is not authorized to update this document.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Access denied"
+  '404':
+    description: Not found. The document was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found"
+  '500':
+    description: Internal server error. Something went wrong while updating the document.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while updating the document"

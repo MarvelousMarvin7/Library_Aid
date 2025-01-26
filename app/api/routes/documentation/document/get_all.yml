@@ -1,0 +1,67 @@
+# get all documents for a user
+---
+tags:
+  - Documents
+summary: Get all documents for a user
+description: Endpoint to get all documents for a user. The user must be authenticated.
+operationId: getDocuments
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Documents successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              user_id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              classification_id:
+                type: string
+                example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              title:
+                type: string
+                example: "Document Title"
+              description:
+                type: string
+                example: "Document Description"
+              file_path:
+                type: string
+                example: "/path/to/document.pdf"
+              file_type:
+                type: string
+                example: "PDF"
+              image_url:
+                type: string
+                example: "https://example.com/image.jpg"
+              classification_code:
+                type: string
+                example: "TECH"
+              abstract:
+                type: string
+                example: "Document Abstract"
+              created_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+              updated_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the documents.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the documents"

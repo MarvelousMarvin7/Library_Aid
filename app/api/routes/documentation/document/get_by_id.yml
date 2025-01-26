@@ -1,0 +1,82 @@
+# get document by id
+---
+tags:
+  - Documents
+summary: Get document by id
+description: Endpoint to get a document by its id. The user must be authenticated.
+operationId: getDocumentById
+security:
+  - bearerAuth: []
+parameters:
+  - name: document_id
+    in: path
+    required: true
+    description: The ID of the document to retrieve
+    schema:
+      type: string
+responses:
+  '200':
+    description: Document successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            classification_id:
+              type: string
+              example: "3c8e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            title:
+              type: string
+              example: "Document Title"
+            description:
+              type: string
+              example: "Document Description"
+            file_path:
+              type: string
+              example: "/path/to/document.pdf"
+            file_type:
+              type: string
+              example: "PDF"
+            image_url:
+              type: string
+              example: "https://example.com/image.jpg"
+            classification_code:
+              type: string
+              example: "TECH"
+            abstract:
+              type: string
+              example: "Document Abstract"
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '404':
+    description: Not found. The document was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Document not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the document.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the document"
