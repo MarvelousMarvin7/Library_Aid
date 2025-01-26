@@ -1,0 +1,59 @@
+# get list of all notifications for the current user
+---
+tags:
+  - Notifications
+summary: Get list of all notifications for the current user
+description: Endpoint to get list of all notifications for the current user. The user must be authenticated.
+operationId: getUserNotifications
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Notifications successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              user_id:
+                type: string
+                example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+              message:
+                type: string
+                example: "Your document has been approved."
+              is_read:
+                type: boolean
+                example: false
+              created_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+              updated_at:
+                type: string
+                format: date-time
+                example: "2025-01-25T12:34:56.789Z"
+  '404':
+    description: Not found. The user was not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "User not found"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the notifications.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the notifications"

@@ -1,0 +1,64 @@
+# get notification by id for a user
+---
+tags:
+  - Notifications
+summary: Get notification by id for a user
+description: Endpoint to get notification by id for a user. The user must be authenticated.
+operationId: getNotificationById
+security:
+  - bearerAuth: []
+parameters:
+  - name: notification_id
+    in: path
+    required: true
+    description: The ID of the notification to retrieve
+    schema:
+      type: string
+responses:
+  '200':
+    description: Notification successfully retrieved
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            user_id:
+              type: string
+              example: "2b7e12a5-6d2f-4f3a-98a1-27312fa68d6c"
+            message:
+              type: string
+              example: "Your document has been approved."
+            is_read:
+              type: boolean
+              example: false
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-01-25T12:34:56.789Z"
+  '404':
+    description: Not found. The notification was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Notification not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while retrieving the notification.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while retrieving the notification"

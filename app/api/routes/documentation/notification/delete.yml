@@ -1,0 +1,43 @@
+# delete notification by id
+---
+tags:
+  - Notifications
+summary: Delete notification by id
+description: Endpoint to delete notification by id. The user must be authenticated.
+operationId: deleteNotification
+security:
+  - bearerAuth: []
+parameters:
+  - name: notification_id
+    in: path
+    required: true
+    description: The ID of the notification to delete
+    schema:
+      type: string
+responses:
+  '200':
+    description: Notification successfully deleted
+    content:
+      application/json:
+        schema:
+          type: object
+  '404':
+    description: Not found. The notification was not found or access denied.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Notification not found or access denied"
+  '500':
+    description: Internal server error. Something went wrong while deleting the notification.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "An unexpected error occurred while deleting the notification"
